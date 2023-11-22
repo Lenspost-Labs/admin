@@ -4,8 +4,6 @@ import {
   List,
   ListItem,
   ListItemPrefix,
-  ListItemSuffix,
-  Chip,
 } from "@material-tailwind/react";
 import {
   PresentationChartBarIcon,
@@ -16,8 +14,30 @@ import {
   PowerIcon,
 } from "@heroicons/react/24/solid";
 import { Link, Outlet } from "react-router-dom";
+import { auth } from "../firebase";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import axios from "axios";
+
+import { useState } from "react";
 
 export function MatSidebar() {
+  const googleAuth = new GoogleAuthProvider();
+  const [user, setUser] = useState(null);
+
+  const login = async () => {
+    const result = await signInWithPopup(auth, googleAuth);
+    // const res = await axios.post(
+    //   `http://localhost:3000/checkWhitelist?email=${result.user.email}`
+    // );
+    console.log(result.user.email);
+    setUser(result.user.email);
+  };
+
+  const logout = async () => {
+    await auth.signOut();
+    setUser(null);
+  };
+
   return (
     <>
       <div className="flex flex-row justify-start align-top">
@@ -28,8 +48,16 @@ export function MatSidebar() {
                 Lenspost Admin
               </Typography>
             </div>
+            {user ? (
+              <button className="bg-black" onClick={logout}>
+                Sign Out
+              </button>
+            ) : (
+              <button className="bg-black" onClick={login}>
+                Sign In
+              </button>
+            )}
             <List>
-              
               <Link to="/collections">
                 <ListItem>
                   <ListItemPrefix>
