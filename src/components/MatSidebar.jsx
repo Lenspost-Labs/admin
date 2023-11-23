@@ -61,44 +61,44 @@ const MatSidebar = () =>  {
             </div>
 
             <List>
-              {userEmail && !isWhitelisted && (
+              {userEmail && isWhitelisted && (
                 <>
-                  <Link to="/collections">
+                  <Link to="/fileToS3">
                     <ListItem>
                       <ListItemPrefix>
                         <PresentationChartBarIcon className="h-5 w-5" />
                       </ListItemPrefix>
-                      Collections
+                      Upload Files to S3
                     </ListItem>
                   </Link>
 
-                  <Link to="/assets">
+                  <Link to="/getAssetJSON">
                     <ListItem>
                       <ListItemPrefix>
                         <ShoppingBagIcon className="h-5 w-5" />
                       </ListItemPrefix>
-                      Assets
+                      Get Asset JSON
                     </ListItem>
                   </Link>
 
-                  <Link to="/users">
+                  <Link to="/deleteCache">
                     <ListItem>
                       <ListItemPrefix>
                         <UserCircleIcon className="h-5 w-5" />
                       </ListItemPrefix>
-                      Users
+                      Delete specific Cache
                       {/* <ListItemSuffix>
                        <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
                    </ListItemSuffix> */}
                     </ListItem>
                   </Link>
 
-                  <Link to="/templates">
+                  <Link to="/deleteCacheByPattern">
                     <ListItem>
                       <ListItemPrefix>
                         <InboxIcon className="h-5 w-5" />
                       </ListItemPrefix>
-                      Templates
+                      Delete Cache by Pattern
                     </ListItem>
                   </Link>
 

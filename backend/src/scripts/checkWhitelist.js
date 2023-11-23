@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const whitelistedEmails = ["sugatobagchi@dsec.ac.in"];
+const whitelistedEmails = ["sugatobagchi@dsec.ac.in", "tirumaladasa@gmail.com"];
 
 router.post("/", async (req, res) => {
   try {

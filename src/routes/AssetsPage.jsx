@@ -1,11 +1,15 @@
-import React from 'react'
+import React from "react";
+import { FormGetAsset } from "../components";
 
 const AssetsPage = () => {
-
   return (
-    <div>Assets Page</div>
-  )
-  
-}
+    <>
+      <div className=" mt-8"> 
+        <h2> Set Asset Metadata </h2>
+        <FormGetAsset />
+      </div>
+    </>
+  );
+};
 
 export default AssetsPage;
