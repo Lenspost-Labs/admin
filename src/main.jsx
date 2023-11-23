@@ -1,18 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
 import "./index.css";
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { MatSidebar } from "./components/MatSidebar.jsx";
-import ErrorPage from "./routes/ErrorPage.jsx";
-import { CollectionsPage, AssetsPage, UsersPage, TemplatesPage, LogoutPage, SettingsPage } from "./routes";
-
+import {
+  CollectionsPage,
+  AssetsPage,
+  UsersPage,
+  TemplatesPage,
+  LogoutPage,
+  SettingsPage,
+  ErrorPage,
+} from "./routes";
+import App from "./App";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MatSidebar />,
+    element: <App />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -44,7 +48,7 @@ const router = createBrowserRouter([
         path: "/logout",
         element: <LogoutPage />,
         errorElement: <ErrorPage />,
-      }
+      },
     ],
   },
 ]);

@@ -1,3 +1,3 @@
-import { MatSidebar } from "./MatSidebar";
+import MatSidebar from "./MatSidebar";
 
 export { MatSidebar };

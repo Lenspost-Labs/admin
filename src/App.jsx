@@ -1,11 +1,16 @@
 // import React from 'react'
 
-import { MatSidebar } from "./components/MatSidebar";
+import { MatSidebar } from "./components";
+import { AppContextProvider } from "./context";
 
 const App = () => {
-  return (<>
-      <MatSidebar />
-  </>);
+  return (
+    <>
+      <AppContextProvider>
+        <MatSidebar />
+      </AppContextProvider>
+    </>
+  );
 };
 
 export default App;

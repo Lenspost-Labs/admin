@@ -4,7 +4,9 @@ import {
   List,
   ListItem,
   ListItemPrefix,
+  Alert,
 } from "@material-tailwind/react";
+
 import {
   PresentationChartBarIcon,
   ShoppingBagIcon,
@@ -12,30 +14,39 @@ import {
   Cog6ToothIcon,
   InboxIcon,
   PowerIcon,
+  EyeIcon,
 } from "@heroicons/react/24/solid";
+
 import { Link, Outlet } from "react-router-dom";
 import { auth } from "../firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import axios from "axios";
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
 
-import { useState } from "react";
-
-export function MatSidebar() {
+const MatSidebar = () =>  {
   const googleAuth = new GoogleAuthProvider();
-  const [user, setUser] = useState(null);
+  const { userEmail, setUserEmail, isWhitelisted, setIsWhitelisted } = useContext(AppContext);
+
+  console.log(userEmail);
 
   const login = async () => {
     const result = await signInWithPopup(auth, googleAuth);
-    // const res = await axios.post(
-    //   `http://localhost:3000/checkWhitelist?email=${result.user.email}`
-    // );
+    const res = await axios.post(
+      `http://localhost:3000/checkWhitelist?email=${result.user.email}`
+    );
+
+    console.log("Check Whitelist");
+    console.log(res.data.whitelisted);
+    setIsWhitelisted(res.data.whitelisted);
+
     console.log(result.user.email);
-    setUser(result.user.email);
+    setUserEmail(result.user.email);
   };
 
   const logout = async () => {
     await auth.signOut();
-    setUser(null);
+    setUserEmail(null);
   };
 
   return (
@@ -48,72 +59,89 @@ export function MatSidebar() {
                 Lenspost Admin
               </Typography>
             </div>
-            {user ? (
-              <button className="bg-black" onClick={logout}>
-                Sign Out
-              </button>
-            ) : (
-              <button className="bg-black" onClick={login}>
-                Sign In
-              </button>
-            )}
+
             <List>
-              <Link to="/collections">
-                <ListItem>
-                  <ListItemPrefix>
-                    <PresentationChartBarIcon className="h-5 w-5" />
-                  </ListItemPrefix>
-                  Collections
-                </ListItem>
-              </Link>
+              {userEmail && !isWhitelisted && (
+                <>
+                  <Link to="/collections">
+                    <ListItem>
+                      <ListItemPrefix>
+                        <PresentationChartBarIcon className="h-5 w-5" />
+                      </ListItemPrefix>
+                      Collections
+                    </ListItem>
+                  </Link>
 
-              <Link to="/assets">
-                <ListItem>
-                  <ListItemPrefix>
-                    <ShoppingBagIcon className="h-5 w-5" />
-                  </ListItemPrefix>
-                  Assets
-                </ListItem>
-              </Link>
+                  <Link to="/assets">
+                    <ListItem>
+                      <ListItemPrefix>
+                        <ShoppingBagIcon className="h-5 w-5" />
+                      </ListItemPrefix>
+                      Assets
+                    </ListItem>
+                  </Link>
 
-              <Link to="/users">
-                <ListItem>
-                  <ListItemPrefix>
-                    <UserCircleIcon className="h-5 w-5" />
-                  </ListItemPrefix>
-                  Users
-                  {/* <ListItemSuffix>
+                  <Link to="/users">
+                    <ListItem>
+                      <ListItemPrefix>
+                        <UserCircleIcon className="h-5 w-5" />
+                      </ListItemPrefix>
+                      Users
+                      {/* <ListItemSuffix>
                        <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
                    </ListItemSuffix> */}
-                </ListItem>
-              </Link>
+                    </ListItem>
+                  </Link>
 
-              <Link to="/templates">
-                <ListItem>
+                  <Link to="/templates">
+                    <ListItem>
+                      <ListItemPrefix>
+                        <InboxIcon className="h-5 w-5" />
+                      </ListItemPrefix>
+                      Templates
+                    </ListItem>
+                  </Link>
+
+                  <Link to="/settings">
+                    <ListItem>
+                      <ListItemPrefix>
+                        <Cog6ToothIcon className="h-5 w-5" />
+                      </ListItemPrefix>
+                      Settings
+                    </ListItem>
+                  </Link>
+
+                  <Link to="/logout">
+                    <ListItem onClick={logout}>
+                      <ListItemPrefix>
+                        <PowerIcon className="h-5 w-5" />
+                      </ListItemPrefix>
+                      Logout
+                    </ListItem>
+                  </Link>
+                </>
+              )}
+
+              {userEmail && !isWhitelisted && (
+                <ListItem onClick={()=> console.log("Check For Whitelist")}>
                   <ListItemPrefix>
-                    <InboxIcon className="h-5 w-5" />
+                    <EyeIcon className="h-5 w-5" />
                   </ListItemPrefix>
-                  Templates
+                  <Alert color="amber">
+                   User is not Whitelisted 
+                  </Alert>
                 </ListItem>
-              </Link>
+              )}
 
-              <Link to="/settings">
-                <ListItem>
-                  <ListItemPrefix>
-                    <Cog6ToothIcon className="h-5 w-5" />
-                  </ListItemPrefix>
-                  Settings
-                </ListItem>
-              </Link>
-
-              <Link to="/logout">
-                <ListItem>
+              {!userEmail && (
+                <ListItem onClick={login}>
                   <ListItemPrefix>
                     <PowerIcon className="h-5 w-5" />
                   </ListItemPrefix>
-                  Logout
+                  Login
                 </ListItem>
-              </Link>
+              )}
+
             </List>
           </Card>
         </div>
@@ -125,3 +153,5 @@ export function MatSidebar() {
     </>
   );
 }
+
+export default MatSidebar;
