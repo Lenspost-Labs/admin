@@ -32,13 +32,15 @@ router.post("/", upload.array("files"), async (req, res) => {
 
     const files = req.files; // Access uploaded files from req.files
     console.log(req.files);
+    let urls = [];
     const imageUrls = await Promise.all(
-      files.map(async (file) =>
-        uploadToS3(file.buffer, file.originalname, folderName)
-      )
+      files.map(async (file) => {
+        let res = await uploadToS3(file.buffer, file.originalname, folderName);
+        urls.push(res.Location);
+      })
     );
 
-    res.status(200).json({ imageUrls });
+    res.status(200).json(urls);
   } catch (error) {
     console.error("Error uploading files to S3:", error);
     res.status(500).json({ error: "Internal Server Error" });
