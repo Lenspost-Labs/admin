@@ -16,7 +16,7 @@ const s3 = new aws.S3({
 const uploadToS3 = async (file, key, folderName) => {
   const params = {
     Bucket: process.env.AWS_BUCKET_NAME,
-    Key: `${folderName}/${file.originalname}`,
+    Key: `${folderName}/${key}`,
     Body: file,
     ContentType: "image/png",
     ACL: "public-read",
@@ -25,11 +25,13 @@ const uploadToS3 = async (file, key, folderName) => {
   return await s3.upload(params).promise();
 };
 
-router.post("/", async (req, res) => {
+router.post("/", upload.array("files"), async (req, res) => {
   try {
+    // You need to change the folderName to location you want the files to be uploaded.
     let folderName = "test".trim().replace(/\/$/, "");
 
-    const files = req.files;
+    const files = req.files; // Access uploaded files from req.files
+    console.log(req.files);
     const imageUrls = await Promise.all(
       files.map(async (file) =>
         uploadToS3(file.buffer, file.originalname, folderName)
