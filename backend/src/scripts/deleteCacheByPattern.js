@@ -1,4 +1,5 @@
 const redis = require("../redisClient");
+const auth = require("../middleware/auth");
 
 const deleteCacheByPattern = async (req, res) => {
   try {

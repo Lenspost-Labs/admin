@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const express = require("express");
 const multer = require("multer");
 const upload = multer();
+const auth = require("../middleware/auth");
 
 dotenv.config();
 
@@ -25,7 +26,7 @@ const uploadToS3 = async (file, key, folderName) => {
   return await s3.upload(params).promise();
 };
 
-router.post("/", upload.array("files"), async (req, res) => {
+router.post("/", auth, upload.array("files"), async (req, res) => {
   try {
     // You need to change the folderName to location you want the files to be uploaded.
     let folderName = "test".trim().replace(/\/$/, "");

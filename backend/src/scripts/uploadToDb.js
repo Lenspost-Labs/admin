@@ -1,5 +1,6 @@
 const express = require("express");
 const prisma = require("../prisma");
+const auth = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -39,7 +40,7 @@ const uploadToDb = async (datas) => {
   }
 };
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     const requestData = req.body;
     if (!requestData || !Array.isArray(requestData)) {
