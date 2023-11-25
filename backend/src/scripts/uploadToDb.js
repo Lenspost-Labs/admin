@@ -3,21 +3,33 @@ const prisma = require("../prisma");
 
 const router = express.Router();
 
-const uploadToDb = async (data) => {
+const uploadToDb = async (datas) => {
   try {
-    JSON.parse(data);
-    console.log(data);
-    if (!data || typeof data !== "object") {
-      throw new Error("Invalid data format. Expected JSON object.");
+    // console.log(datas);
+    if (!datas || !Array.isArray(datas)) {
+      throw new Error(
+        "Invalid data format. Expected an array of JSON objects."
+      );
     }
 
-    // The below code will push data to production DB.
-    // If you want to test then change the json file data campaign value to test so that we can delete it manually
+    const assets = datas.map((data) => {
+      const parsedData = JSON.parse(data);
 
-    // await prisma.assets.createMany({
-    //   data: data,
-    //   skipDuplicates: true,
-    // });
+      // if (typeof parsedData !== "boolean") {
+      //   if (parsedData.featured === "true") {
+      //     parsedData.featured = true;
+      //   } else {
+      //     parsedData.featured = false;
+      //   }
+      // }
+
+      return parsedData;
+    });
+
+    await prisma.assets.createMany({
+      data: assets,
+      skipDuplicates: true,
+    });
 
     console.log("Data uploaded to the database.");
     return { message: "Data uploaded to the database." };
@@ -30,10 +42,10 @@ const uploadToDb = async (data) => {
 router.post("/", async (req, res) => {
   try {
     const requestData = req.body;
-    if (!requestData) {
-      return res
-        .status(400)
-        .json({ error: "No data received in the request." });
+    if (!requestData || !Array.isArray(requestData)) {
+      return res.status(400).json({
+        error: "Invalid request format. Expected an array of JSON objects.",
+      });
     }
 
     const result = await uploadToDb(requestData);

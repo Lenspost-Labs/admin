@@ -13,8 +13,8 @@ model assets {
   type       String?  @db.VarChar(255)
   author     String?  @db.VarChar(255)
   image      String?  @db.VarChar(255)
-  createdAt  DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt  DateTime @db.Timestamptz(6)
+  createdAt    DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(6)
   dimensions Int[]
   campaign   String?  @db.VarChar(255)
   featured   Boolean? @default(false)
