@@ -3,13 +3,14 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
-  AssetsPage,
-  UsersPage,
-  TemplatesPage,
+  DelSpecificCachePage,
+  DelCacheByPatternPage,
   LogoutPage,
   SettingsPage,
   ErrorPage,
   FileToS3Page,
+  UploadToDBPage,
+  AssetJSONPage,
 } from "./routes";
 import App from "./App";
 
@@ -26,17 +27,22 @@ const router = createBrowserRouter([
       },
       {
         path: "/getAssetJSON",
-        element: <AssetsPage />,
+        element: <AssetJSONPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/uploadToDB",
+        element: <UploadToDBPage />,
         errorElement: <ErrorPage />,
       },
       {
         path: "/deleteCache",
-        element: <UsersPage />,
+        element: <DelSpecificCachePage />,
         errorElement: <ErrorPage />,
       },
       {
         path: "/deleteCacheByPattern",
-        element: <TemplatesPage />,
+        element: <DelCacheByPatternPage />,
         errorElement: <ErrorPage />,
       },
       {

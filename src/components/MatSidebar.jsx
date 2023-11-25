@@ -8,46 +8,76 @@ import {
 } from "@material-tailwind/react";
 
 import {
-  PresentationChartBarIcon,
-  ShoppingBagIcon,
   UserCircleIcon,
   Cog6ToothIcon,
   InboxIcon,
   PowerIcon,
   EyeIcon,
+  ServerStackIcon,
+  CodeBracketIcon,
+  CubeIcon,
 } from "@heroicons/react/24/solid";
 
 import { Link, Outlet } from "react-router-dom";
 import { auth } from "../firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../context/AppContext";
 
-const MatSidebar = () =>  {
+const MatSidebar = () => {
   const googleAuth = new GoogleAuthProvider();
-  const { userEmail, setUserEmail, isWhitelisted, setIsWhitelisted } = useContext(AppContext);
-
-  console.log(userEmail);
+  const { userEmail, setUserEmail, isWhitelisted, setIsWhitelisted, authToken, setAuthToken } =
+    useContext(AppContext);
 
   const login = async () => {
     const result = await signInWithPopup(auth, googleAuth);
+    console.log("In LoginFn", result.user.email);
+    setUserEmail(result.user.email);
+
+    await checkForWhitelist(result.user.email);
+  };
+
+  const checkForWhitelist = async (emailID) => {
+
+    const emailPayload = {
+      email: emailID,
+    };
+
     const res = await axios.post(
-      `http://localhost:3000/checkWhitelist?email=${result.user.email}`
+      `http://localhost:3000/checkWhitelist`, emailPayload
     );
 
     console.log("Check Whitelist");
-    console.log(res.data.whitelisted);
-    setIsWhitelisted(res.data.whitelisted);
+    console.log(res.data);
 
-    console.log(result.user.email);
-    setUserEmail(result.user.email);
+    localStorage.setItem("jwt", res.data.token);
+
+    setAuthToken(res.data.token);
+    setIsWhitelisted(res.data.whitelisted);
   };
 
   const logout = async () => {
     await auth.signOut();
     setUserEmail(null);
+    setIsWhitelisted(false);
+    setAuthToken(null);
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("loggedInUser");
   };
+
+  useEffect(() => {
+    if (userEmail) {
+      localStorage.setItem("loggedInUser", userEmail);
+    }
+  }, [userEmail]);
+
+  useEffect(() => {
+    if (localStorage.getItem("loggedInUser")) {
+      setUserEmail(localStorage.getItem("loggedInUser"));
+    }
+    checkForWhitelist(userEmail);
+  }, [userEmail]);
 
   return (
     <>
@@ -60,13 +90,25 @@ const MatSidebar = () =>  {
               </Typography>
             </div>
 
+            <hr />
+
+            {userEmail && (
+              <div className="mb-0 p-4">
+                <Typography variant="h6" color="blue-gray">
+                  {userEmail}
+                </Typography>
+              </div>
+            )}
+
+            <hr />
+
             <List>
               {userEmail && isWhitelisted && (
                 <>
                   <Link to="/fileToS3">
                     <ListItem>
                       <ListItemPrefix>
-                        <PresentationChartBarIcon className="h-5 w-5" />
+                        <CubeIcon className="h-5 w-5" />
                       </ListItemPrefix>
                       Upload Files to S3
                     </ListItem>
@@ -75,9 +117,18 @@ const MatSidebar = () =>  {
                   <Link to="/getAssetJSON">
                     <ListItem>
                       <ListItemPrefix>
-                        <ShoppingBagIcon className="h-5 w-5" />
+                        <CodeBracketIcon className="h-5 w-5" />
                       </ListItemPrefix>
                       Get Asset JSON
+                    </ListItem>
+                  </Link>
+
+                  <Link to="/uploadToDb">
+                    <ListItem>
+                      <ListItemPrefix>
+                        <ServerStackIcon className="h-5 w-5" />
+                      </ListItemPrefix>
+                      Upload to DB
                     </ListItem>
                   </Link>
 
@@ -123,14 +174,21 @@ const MatSidebar = () =>  {
               )}
 
               {userEmail && !isWhitelisted && (
-                <ListItem onClick={()=> console.log("Check For Whitelist")}>
-                  <ListItemPrefix>
-                    <EyeIcon className="h-5 w-5" />
-                  </ListItemPrefix>
-                  <Alert color="amber">
-                   User is not Whitelisted 
-                  </Alert>
-                </ListItem>
+                <>
+                  <ListItem onClick={() => console.log("Check For Whitelist")}>
+                    <ListItemPrefix>
+                      <EyeIcon className="h-5 w-5" />
+                    </ListItemPrefix>
+                    <Alert color="amber">User is not Whitelisted</Alert>
+                  </ListItem>
+
+                  <ListItem onClick={logout}>
+                    <ListItemPrefix>
+                      <PowerIcon className="h-5 w-5" />
+                    </ListItemPrefix>
+                    Logout
+                  </ListItem>
+                </>
               )}
 
               {!userEmail && (
@@ -141,7 +199,6 @@ const MatSidebar = () =>  {
                   Login
                 </ListItem>
               )}
-
             </List>
           </Card>
         </div>
@@ -152,6 +209,6 @@ const MatSidebar = () =>  {
       </div>
     </>
   );
-}
+};
 
 export default MatSidebar;

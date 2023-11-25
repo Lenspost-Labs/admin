@@ -1,5 +1,5 @@
 import MatSidebar from "./MatSidebar";
-import FileDropZone from "./FileDropZone";
 import FormGetAsset from "./FormGetAsset";
+import FormUploadToDB  from "./FormUploadToDB";
 
-export { MatSidebar, FileDropZone, FormGetAsset };
+export { MatSidebar, FormGetAsset , FormUploadToDB };

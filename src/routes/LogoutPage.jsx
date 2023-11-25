@@ -2,7 +2,7 @@ import React from 'react'
 
 const LogoutPage = () => {
   return (
-    <div>Logout Page</div>
+    <div>You have been logged out successfully!</div>
   )
 }
 

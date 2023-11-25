@@ -1,5 +1,3 @@
-// import React from 'react'
-
 import { MatSidebar } from "./components";
 import { AppContextProvider } from "./context";
 
