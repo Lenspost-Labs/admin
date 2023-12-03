@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Alert, Button, Card, CardBody, CardFooter, Input, Switch, Textarea, Typography } from "@material-tailwind/react";
+import {
+  Alert,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  Input,
+  Switch,
+  Textarea,
+  Typography,
+} from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 
 // const BE_URL = import.meta.env.VITE_BACKEND_URL;
@@ -22,6 +32,7 @@ const FormGetAsset = () => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    console.log(stickerData);
 
     if (name === "tags") {
       const tagsArray = value.split(",").map((tag) => tag.trim());
@@ -43,13 +54,20 @@ const FormGetAsset = () => {
     try {
       const config = {
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("jwt")} `,
-        },  
+          Authorization: `Bearer ${localStorage.getItem("jwt")} `,
+        },
       };
+      let jsondata = stickerData;
+      jsondata.data = jsondata.data.split(",");
+      console.log(jsondata);
 
-      const response = await axios.post(`${BE_URL}/getAssetJSON`, stickerData,  config);
+      const response = await axios.post(
+        `${BE_URL}/getAssetJSON`,
+        jsondata,
+        config
+      );
       console.log("Response:", response.data);
-      setResAssetJSON(response.data[0]);
+      setResAssetJSON(response.data);
     } catch (error) {
       console.error("Error uploading sticker data:", error);
     }
@@ -62,7 +80,6 @@ const FormGetAsset = () => {
 
     setOpenAlert(true);
   };
-
 
   return (
     <div className="flex flex-col w-96">
@@ -168,7 +185,7 @@ const FormGetAsset = () => {
         Copied to Clipboard!
       </Alert>
 
-      { resAssetJSON && (
+      {resAssetJSON && (
         <Card className="mt-6 w-96">
           <CardBody>
             <Typography variant="h6" color="blue-gray" className="mb-2">
@@ -186,6 +203,5 @@ const FormGetAsset = () => {
     </div>
   );
 };
-
 
 export default FormGetAsset;

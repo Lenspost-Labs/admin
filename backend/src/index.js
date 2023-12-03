@@ -9,6 +9,7 @@ const uploadToDb = require("./scripts/uploadToDb");
 const auth = require("./middleware/auth");
 const showCollections = require("./collections/showCollections");
 const showTemplates = require("./templates/showTemplates");
+const showUsers = require("./users/showUsers");
 
 const dotenv = require("dotenv");
 
@@ -31,7 +32,11 @@ app.use("/checkWhitelist", checkWhitelist);
 app.use("/uploadToDb", auth, uploadToDb);
 app.use("/collections", auth, showCollections);
 app.use("/templates", auth, showTemplates);
+app.use("/users", auth, showUsers);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}/`);
 });
+
+
+// Only option do delete / add templates, not to remove users but to edit them…

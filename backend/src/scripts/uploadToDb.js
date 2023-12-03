@@ -7,14 +7,14 @@ const router = express.Router();
 const uploadToDb = async (datas) => {
   try {
     // console.log(datas);
-    if (!datas || !Array.isArray(datas)) {
-      throw new Error(
-        "Invalid data format. Expected an array of JSON objects."
-      );
-    }
+    // if (!datas || !Array.isArray(datas)) {
+    //   throw new Error(
+    //     "Invalid data format. Expected an array of JSON objects."
+    //   );
+    // }
 
-    const assets = datas.map((data) => {
-      const parsedData = JSON.parse(data);
+    // const assets = datas.map((data) => {
+    //   const parsedData = JSON.parse(data);
 
       // if (typeof parsedData !== "boolean") {
       //   if (parsedData.featured === "true") {
@@ -24,11 +24,11 @@ const uploadToDb = async (datas) => {
       //   }
       // }
 
-      return parsedData;
-    });
+    //   return parsedData;
+    // });
 
     await prisma.assets.createMany({
-      data: assets,
+      data: datas,
       skipDuplicates: true,
     });
 
@@ -42,18 +42,20 @@ const uploadToDb = async (datas) => {
 
 router.post("/", auth, async (req, res) => {
   try {
-    const requestData = req.body;
-    if (!requestData || !Array.isArray(requestData)) {
-      return res.status(400).json({
-        error: "Invalid request format. Expected an array of JSON objects.",
-      });
-    }
+    console.log(req.body.data);
+    let data = req.body.data;
+    let requestData = data;
+    // if (!requestData || !Array.isArray(requestData)) {
+    //   return res.status(400).json({
+    //     error: "Invalid request format. Expected an array of JSON objects.",
+    //   });
+    // }
 
     const result = await uploadToDb(requestData);
     res.status(200).json(result);
   } catch (error) {
     console.error("Error handling request:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
 });
 

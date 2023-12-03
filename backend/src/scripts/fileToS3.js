@@ -31,7 +31,7 @@ router.post("/", auth, upload.array("files"), async (req, res) => {
     // You need to change the folderName to location you want the files to be uploaded.
     let folderName = "test".trim().replace(/\/$/, "");
 
-    const files = req.files; 
+    const files = req.files;
     let urls = [];
     const imageUrls = await Promise.all(
       files.map(async (file) => {

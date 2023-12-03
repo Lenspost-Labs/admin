@@ -6,7 +6,8 @@ const auth = require("../middleware/auth");
 const router = express.Router();
 
 const processAssetJSON = async (requestData) => {
-  const { stickerAuthor, type, data, tags, wallet, campaign, featured } = requestData;
+  const { stickerAuthor, type, data, tags, wallet, campaign, featured } =
+    requestData;
   const tagsArray = Array.isArray(tags) ? tags : [];
 
   const assetJSONPromises = data.map(async (item) => {
@@ -36,7 +37,7 @@ router.post("/", auth, async (req, res) => {
     res.status(200).json(assetJSON);
   } catch (error) {
     console.error("Error generating asset JSON:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error });
   }
 });
 

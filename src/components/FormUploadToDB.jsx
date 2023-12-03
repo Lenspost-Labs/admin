@@ -12,32 +12,31 @@ const FormUploadToDB = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
 
     try {
       const config = {
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("jwt")} `,
-        },  
+          Authorization: `Bearer ${localStorage.getItem("jwt")} `,
+        },
       };
+      let check = JSON.parse(`[${dataUploadToDB}]`);
+      console.log(check);
 
       const response = await axios.post(
         `${BE_URL}/uploadToDb`,
-        dataUploadToDB,
+        { data: check },
         config
       );
 
-      console.log(dataUploadToDB);
 
       console.log("Response:", response.data);
-
     } catch (error) {
       console.error("Error uploading sticker data:", error);
     }
   };
 
   const handleInputChange = (event) => {
-      setDataUploadToDB(event.target.value);
+    setDataUploadToDB(event.target.value);
   };
 
   return (
@@ -54,15 +53,15 @@ const FormUploadToDB = () => {
       </Alert>
 
       <form onSubmit={handleSubmit}>
-      <div className="w-full">
-        <Textarea
-          className="h-96 "
-          type="text" 
-          label="Asset JSON"
-          name="assetJSON"
-          value={dataUploadToDB}
-          onChange={(e) => handleInputChange(e)}
-        />
+        <div className="w-full">
+          <Textarea
+            className="h-96 "
+            type="text"
+            label="Asset JSON"
+            name="assetJSON"
+            value={dataUploadToDB}
+            onChange={(e) => handleInputChange(e)}
+          />
         </div>
 
         <br />
