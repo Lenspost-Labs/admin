@@ -14,7 +14,7 @@ import {
 import { Link } from "react-router-dom";
 
 // const BE_URL = import.meta.env.VITE_BACKEND_URL;
-const BE_URL = "http://localhost:3000";
+const BE_URL = import.meta.env.VITE_BACKEND_URL;
 const FormGetAsset = () => {
   const [resAssetJSON, setResAssetJSON] = useState();
   const [openAlert, setOpenAlert] = useState(false);

@@ -45,7 +45,8 @@ const MatSidebar = () => {
     };
 
     const res = await axios.post(
-      `http://localhost:3000/checkWhitelist`, emailPayload
+      `${import.meta.env.VITE_BACKEND_URL}/checkWhitelist`,
+      emailPayload
     );
 
     console.log("Check Whitelist");

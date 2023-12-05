@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["tracing", "views"]
 }
 
 datasource db {
@@ -13,21 +14,12 @@ model assets {
   type       String?  @db.VarChar(255)
   author     String?  @db.VarChar(255)
   image      String?  @db.VarChar(255)
-  createdAt    DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt    DateTime @updatedAt @db.Timestamptz(6)
+  createdAt  DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt  DateTime @updatedAt @db.Timestamptz(6)
   dimensions Int[]
   campaign   String?  @db.VarChar(255)
   featured   Boolean? @default(false)
   wallet     String?  @db.VarChar(255)
-}
-
-model auths {
-  address   String   @id @db.VarChar(255)
-  lens      Json?
-  farcaster Json?
-  twitter   Json?
-  createdAt DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime @db.Timestamptz(6)
 }
 
 model canvases {
@@ -38,7 +30,7 @@ model canvases {
   ipfsLink                   String[] @default(dbgenerated("(ARRAY[]::character varying[])::character varying(255)[]")) @db.VarChar(255)
   imageLink                  String[] @default(dbgenerated("(ARRAY[]::character varying[])::character varying(255)[]")) @db.VarChar(255)
   createdAt                  DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt                  DateTime @db.Timestamptz(6)
+  updatedAt                  DateTime @updatedAt @db.Timestamptz(6)
   ownerAddress               String?  @db.VarChar(255)
   referredFrom               String[] @default(dbgenerated("(ARRAY[]::character varying[])::character varying(255)[]")) @db.VarChar(255)
   isGated                    Boolean? @default(false)
@@ -46,7 +38,7 @@ model canvases {
   gatedWith                  String[] @default(dbgenerated("(ARRAY[]::character varying[])::character varying(255)[]")) @db.VarChar(255)
   assetsRecipientElementData Json[]   @default([])
   ownerId                    Int
-  owners                     owners   @relation(fields: [ownerId], references: [id])
+  owner                      owners   @relation(fields: [ownerId], references: [id])
 }
 
 model collections {
@@ -56,7 +48,7 @@ model collections {
   openseaLink String     @db.VarChar(255)
   image       String     @db.VarChar(255)
   createdAt   DateTime   @default(now()) @db.Timestamptz(6)
-  updatedAt   DateTime   @db.Timestamptz(6)
+  updatedAt   DateTime   @updatedAt @db.Timestamptz(6)
   contents    contents[]
 }
 
@@ -70,7 +62,7 @@ model contents {
   imageURL     String       @db.VarChar(255)
   openseaLink  String       @db.VarChar(255)
   createdAt    DateTime     @default(now()) @db.Timestamptz(6)
-  updatedAt    DateTime     @db.Timestamptz(6)
+  updatedAt    DateTime     @updatedAt @db.Timestamptz(6)
   collectionId Int?
   collections  collections? @relation(fields: [collectionId], references: [id])
 }
@@ -80,39 +72,54 @@ model nftData {
   tokenId      String   @db.VarChar(255)
   title        String   @db.VarChar(255)
   description  String
-  openseaLink  String   @db.VarChar(255)
-  imageURL     String?
+  openseaLink  String   @db.VarChar(510)
+  imageURL     String?  @db.VarChar(510)
   permaLink    String?  @db.VarChar(510)
   isPublic     Boolean  @default(false)
   address      String   @db.VarChar(255)
   createdAt    DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt    DateTime @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(6)
   ownerAddress String?  @db.VarChar(255)
+  chainId      Int?
   dimensions   Int[]
   creators     Json[]   @default([])
   ownerId      Int
-  chainId      Int?
-  owners       owners   @relation(fields: [ownerId], references: [id])
+  owner        owners   @relation(fields: [ownerId], references: [id])
 }
 
 model owners {
-  canvasOwned        Int?        @default(0)
-  nftOwned           Int?        @default(0)
-  mail               String?     @db.VarChar(255)
-  lens_auth_token    Json?
-  twitter_auth_token Json?
-  lens_handle        String?     @db.VarChar(255)
-  followNftAddress   String?     @db.VarChar(255)
-  profileId          String?     @db.VarChar(255)
-  createdAt          DateTime    @default(now()) @db.Timestamptz(6)
-  updatedAt          DateTime    @db.Timestamptz(6)
-  solana_address     String?     @unique @db.VarChar(255)
-  evm_address        String?     @unique @db.VarChar(255)
-  id                 Int         @id @default(autoincrement())
-  username           String?     @unique @db.VarChar(255)
-  canvases           canvases[]
-  nftData            nftData[]
-  uploadeds          uploadeds[]
+  mail                    String?                   @db.VarChar(255)
+  lens_auth_token         Json?
+  twitter_auth_token      Json?
+  lens_handle             String?                   @db.VarChar(255)
+  followNftAddress        String?                   @db.VarChar(255)
+  profileId               String?                   @db.VarChar(255)
+  createdAt               DateTime                  @default(now()) @db.Timestamptz(6)
+  updatedAt               DateTime                  @updatedAt @db.Timestamptz(6)
+  solana_address          String?                   @unique @db.VarChar(255)
+  evm_address             String?                   @unique @db.VarChar(255)
+  points                  Int                       @default(0)
+  id                      Int                       @id @default(autoincrement())
+  canvases                canvases[]
+  nftData                 nftData[]
+  username                String?                   @unique @db.VarChar(255)
+  public_canvas_templates public_canvas_templates[]
+  uploadeds               uploadeds[]
+  points_history          points_history[]
+  socials                 socials[]
+}
+
+model socials {
+  id               Int      @id @default(autoincrement())
+  ownerId          Int
+  lens_auth_token  Json?
+  lens_handle      String?  @db.VarChar(255)
+  followNftAddress String?  @db.VarChar(255)
+  profileId        String?  @db.VarChar(255)
+  farcaster        Json?
+  createdAt        DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt        DateTime @updatedAt @db.Timestamptz(6)
+  owner            owners   @relation(fields: [ownerId], references: [id])
 }
 
 model templates {
@@ -121,7 +128,7 @@ model templates {
   name      String   @db.VarChar(255)
   image     String   @db.VarChar(255)
   createdAt DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
 }
 
 model uploadeds {
@@ -129,12 +136,63 @@ model uploadeds {
   image     String   @db.VarChar(255)
   ownerId   Int
   createdAt DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime @db.Timestamptz(6)
-  owners    owners   @relation(fields: [ownerId], references: [id])
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  owner     owners   @relation(fields: [ownerId], references: [id])
 }
 
 model user_collected_posts {
   id      Int    @id @default(autoincrement())
   address String @db.VarChar(255)
   postId  String @db.VarChar(255)
+}
+
+model tasks {
+  id             Int              @id @default(autoincrement())
+  description    String           @db.VarChar(255)
+  amount         Int              @default(0)
+  campaign       String?          @db.VarChar(255)
+  locked         Boolean?         @default(true)
+  createdAt      DateTime         @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime         @updatedAt @db.Timestamptz(6)
+  points_history points_history[]
+}
+
+model points_history {
+  id        Int      @id @default(autoincrement())
+  ownerId   Int
+  amount    Int      @default(0)
+  taskId    Int?
+  reason    String?  @db.VarChar(255)
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  owner     owners   @relation(fields: [ownerId], references: [id])
+  task      tasks?   @relation(fields: [taskId], references: [id])
+}
+
+view public_canvas_templates {
+  id                         Int      @id @default(autoincrement())
+  data                       Json
+  params                     Json?
+  isPublic                   Boolean  @default(false)
+  ipfsLink                   String[] @default(dbgenerated("(ARRAY[]::character varying[])::character varying(255)[]")) @db.VarChar(255)
+  imageLink                  String[] @default(dbgenerated("(ARRAY[]::character varying[])::character varying(255)[]")) @db.VarChar(255)
+  createdAt                  DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt                  DateTime @updatedAt @db.Timestamptz(6)
+  ownerAddress               String?  @db.VarChar(255)
+  referredFrom               String[] @default(dbgenerated("(ARRAY[]::character varying[])::character varying(255)[]")) @db.VarChar(255)
+  isGated                    Boolean? @default(false)
+  allowList                  String[] @default(dbgenerated("(ARRAY[]::character varying[])::character varying(255)[]")) @db.VarChar(255)
+  gatedWith                  String[] @default(dbgenerated("(ARRAY[]::character varying[])::character varying(255)[]")) @db.VarChar(255)
+  assetsRecipientElementData Json[]   @default([])
+  ownerId                    Int
+  owner                      owners   @relation(fields: [ownerId], references: [id])
+}
+
+view template_view {
+  id        Int       @unique
+  data      Json?     @db.Json
+  name      String?   @db.VarChar(255)
+  image     String?   @db.VarChar(255)
+  createdAt DateTime? @db.Timestamptz(6)
+  updatedAt DateTime? @db.Timestamptz(6)
 }

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 const FormUploadToDB = () => {
   // {"image":"https://lenspost.s3.ap-south-1.amazonaws.com/test/CloudRock.jpeg","tags":["sdf","Trsdee","fasa sfafdsafdas","safdsdf","fasdsdf"],"author":"rockuthor","type":"props","featured":false,"dimensions":[2048,1356],"wallet":"0xxdfsdfsdsyz","campaign":"test"}
 
-  const BE_URL = "http://localhost:3000";
+  const BE_URL = import.meta.env.VITE_BACKEND_URL;
   const [openAlert, setOpenAlert] = useState(false);
 
   const [dataUploadToDB, setDataUploadToDB] = useState([]);
@@ -27,7 +27,6 @@ const FormUploadToDB = () => {
         { data: check },
         config
       );
-
 
       console.log("Response:", response.data);
     } catch (error) {

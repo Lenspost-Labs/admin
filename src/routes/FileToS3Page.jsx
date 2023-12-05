@@ -11,8 +11,7 @@ import {
 import { Link } from "react-router-dom";
 
 const FileToS3Page = () => {
-  
-  const BACKEND_URL = "http://localhost:3000";
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const [arrImageUrls, setArrImageUrls] = useState([]);
   const [openAlert, setOpenAlert] = useState(false);
 
@@ -39,7 +38,7 @@ const FileToS3Page = () => {
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",
-          "Authorization": `Bearer ${localStorage.getItem("jwt")} `,
+          Authorization: `Bearer ${localStorage.getItem("jwt")} `,
         },
       };
       const response = await axios.post(
@@ -77,15 +76,13 @@ const FileToS3Page = () => {
 
   return (
     <div className="flex flex-col justify-center w-full m-8">
-
       <form encType="multipart/form-data">
         <Typography color="blue-gray" className="mb-4 mt-4">
-         Choose Files to Upload directly to S3 Bucket
+          Choose Files to Upload directly to S3 Bucket
         </Typography>
 
         <input type="file" multiple onChange={handleFileUpload} />
       </form>
-
 
       <Alert
         open={openAlert}
@@ -98,11 +95,12 @@ const FileToS3Page = () => {
         Copied to Clipboard!
       </Alert>
 
-      { arrImageUrls.length > 0 && (
+      {arrImageUrls.length > 0 && (
         <Card className="mt-6 w-96">
           <CardBody>
             <Typography variant="h6" color="blue-gray" className="mb-2">
-              Copy and paste in <Link to="/getAssetJSON">Get Asset JSON Page</Link>
+              Copy and paste in{" "}
+              <Link to="/getAssetJSON">Get Asset JSON Page</Link>
             </Typography>
             <Typography>{arrImageUrls}</Typography>
           </CardBody>

@@ -14,7 +14,7 @@ const DelSpecificCachePage = () => {
         },
       };
       const response = await axios.post(
-        "http://localhost:3000/deleteCache",
+        `${import.meta.env.VITE_BACKEND_URL}/deleteSpecificCache`,
         {
           data: cache,
         },
@@ -30,8 +30,8 @@ const DelSpecificCachePage = () => {
   };
 
   return (
-    <>
-      <div className="w-full mt-20">
+    <div className="m-20">
+      <div className="w-full">
         <Textarea
           className="h-96 "
           type="text"
@@ -48,7 +48,7 @@ const DelSpecificCachePage = () => {
         {" "}
         Delete Cache{" "}
       </Button>
-    </>
+    </div>
   );
 };
 
