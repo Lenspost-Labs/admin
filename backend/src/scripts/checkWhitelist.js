@@ -3,7 +3,7 @@ const router = express.Router();
 const generateJwt = require("../utils/generateJwt");
 const jsonwebtoken = require("jsonwebtoken");
 
-const whitelistedEmails = ["sugatobagchi@dsec.ac.in", "tirumaladasa@gmail.com"];
+const whitelistedEmails = ["sugatobagchi@dsec.ac.in", "tirumaladasa@gmail.com", "aryan@lenspost.xyz", "chakra@lenspost.xyz", "cybershakti@lenspost.xy"];
 
 router.post("/", async (req, res) => {
   try {
@@ -16,7 +16,6 @@ router.post("/", async (req, res) => {
     if (whitelistedEmails.includes(email.toLowerCase())) {
 
       const token = generateJwt(email);
-      // console.log(jsonwebtoken.verify(token, process.env.JWT_SECRET_KEY).email)
       res.status(200).json({ whitelisted: true, token });
     } else {
       res.status(200).json({ whitelisted: false });
