@@ -14,7 +14,6 @@ const showUsers = require("./users/showUsers");
 const dotenv = require("dotenv");
 
 const app = express();
-const PORT = 3000;
 dotenv.config();
 
 app.use(cors());
@@ -33,6 +32,8 @@ app.use("/uploadToDb", auth, uploadToDb);
 app.use("/collections", auth, showCollections);
 app.use("/templates", auth, showTemplates);
 app.use("/users", auth, showUsers);
+
+let PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}/`);
