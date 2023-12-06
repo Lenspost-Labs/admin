@@ -3,7 +3,7 @@ const router = express.Router();
 const generateJwt = require("../utils/generateJwt");
 const jsonwebtoken = require("jsonwebtoken");
 
-const whitelistedEmails = ["sugatobagchi@dsec.ac.in", "tirumaladasa@gmail.com", "aryan@lenspost.xyz", "chakra@lenspost.xyz", "cybershakti@lenspost.xy"];
+const whitelistedEmails = ["sugatobagchi@dsec.ac.in", "tirumaladasa@gmail.com", "aryan@lenspost.xyz", "chakra@lenspost.xyz", "cybershakti@lenspost.xyz"];
 
 router.post("/", async (req, res) => {
   try {
