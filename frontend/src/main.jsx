@@ -11,6 +11,8 @@ import {
   FileToS3Page,
   UploadToDBPage,
   AssetJSONPage,
+  TemplatesPage,
+  UsersPage,
 } from "./routes";
 import App from "./App";
 
@@ -43,6 +45,16 @@ const router = createBrowserRouter([
       {
         path: "/deleteCacheByPattern",
         element: <DelCacheByPatternPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/templates",
+        element: <TemplatesPage/>,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/users",
+        element: <UsersPage />,
         errorElement: <ErrorPage />,
       },
       {
