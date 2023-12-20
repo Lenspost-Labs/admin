@@ -3,16 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const UsersPage = () => {
-  interface User {
-    id: number;
-    username: string;
-    evm_address: string;
-    solana_address: string;
-    lens_handle: string;
-    mail: string;
-    points: number;
-    profileId: number;
-  }
+
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const [usersArray, setUsersArray] = useState<User[]>([]);
   const [globalUsersArray, setGlobalUsersArray] = useState<User[]>([]);

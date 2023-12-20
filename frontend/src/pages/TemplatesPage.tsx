@@ -3,12 +3,6 @@ import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
 
-interface Template {
-  id: string;
-  image: string;
-  name: string;
-  createdAt: string;
-}
 
 const TemplatesPage = () => {
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;

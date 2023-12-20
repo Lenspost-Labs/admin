@@ -1,5 +1,5 @@
 import React from "react";
-import { FormUploadToDB } from "../components";
+import { FormUploadToDB } from "src/components";
 import { Typography } from "@material-tailwind/react";
 
 const UploadToDBPage = () => {

@@ -1,6 +1,6 @@
 import React from "react";
-import { MatSidebar } from "./components";
-import { AppContextProvider } from "./context";
+import { MatSidebar } from "src/components";
+import { AppContextProvider } from "src/context";
 
 const App = () => {
   return (

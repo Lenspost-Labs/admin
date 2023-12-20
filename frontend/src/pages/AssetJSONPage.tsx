@@ -1,5 +1,5 @@
 import React from "react";
-import { FormGetAsset } from "../components";
+import { FormGetAsset } from "src/components";
 import { Typography } from "@material-tailwind/react";
 
 const AssetJSONPage = () => {

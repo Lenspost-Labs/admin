@@ -19,11 +19,11 @@ import {
 } from "@heroicons/react/24/solid";
 
 import { Link, Outlet } from "react-router-dom";
-import { auth } from "../firebase";
+import { auth } from "src/firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import axios from "axios";
 import { useContext, useEffect } from "react";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "src/context/AppContext";
 import React from "react";
 
 const MatSidebar = () => {

@@ -27,10 +27,17 @@ Run the backend service and Start the Frontend server
 ## Environmental Variables
  Use the .env.example template for env in the backend folder 
 
- 
+
 
 ## Deployment
 
 - [Live]("")
 - [Staging](https://thunderous-bienenstitch-10e784.netlify.app/)
 
+## Developers using this codebase
+
+Here's a quick guide while using imports : 
+    1. Do not use relative imports Ex : ../../../component
+        instead, use src/folderName/subFolderName/component
+    
+        Always start imports with `src` (since it is already configured for this project in tsconfig.json and vite.config.ts)

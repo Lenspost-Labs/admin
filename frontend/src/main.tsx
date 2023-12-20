@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import "src/index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
   DelSpecificCachePage,
@@ -14,8 +14,8 @@ import {
   TemplatesPage,
   UsersPage,
   OneStepUpload,
-} from "./routes";
-import App from "./App";
+} from "src/pages";
+import App from "src/App";
 
 // All packages except `@mantine/hooks` require styles imports
 import "@mantine/core/styles.css";

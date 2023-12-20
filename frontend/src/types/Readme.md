@@ -1,0 +1,1 @@
+This Folder contains all the custom Types used in the App
