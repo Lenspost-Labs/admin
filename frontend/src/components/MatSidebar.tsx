@@ -24,22 +24,28 @@ import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import axios from "axios";
 import { useContext, useEffect } from "react";
 import { AppContext } from "../context/AppContext";
+import React from "react";
 
 const MatSidebar = () => {
   const googleAuth = new GoogleAuthProvider();
-  const { userEmail, setUserEmail, isWhitelisted, setIsWhitelisted, authToken, setAuthToken } =
-    useContext(AppContext);
+  const {
+    userEmail,
+    setUserEmail,
+    isWhitelisted,
+    setIsWhitelisted,
+    setAuthToken,
+  } = 
+  useContext(AppContext);
 
   const login = async () => {
     const result = await signInWithPopup(auth, googleAuth);
     console.log("In LoginFn", result.user.email);
-    setUserEmail(result.user.email);
+    setUserEmail(result.user.email ?? '');
 
     await checkForWhitelist(result.user.email);
   };
 
-  const checkForWhitelist = async (emailID) => {
-
+  const checkForWhitelist = async (emailID: string | null) => {
     const emailPayload = {
       email: emailID,
     };
@@ -60,9 +66,9 @@ const MatSidebar = () => {
 
   const logout = async () => {
     await auth.signOut();
-    setUserEmail(null);
+    setUserEmail('');
     setIsWhitelisted(false);
-    setAuthToken(null);
+    setAuthToken("");
     localStorage.removeItem("jwt");
     localStorage.removeItem("loggedInUser");
   };
@@ -75,7 +81,7 @@ const MatSidebar = () => {
 
   useEffect(() => {
     if (localStorage.getItem("loggedInUser")) {
-      setUserEmail(localStorage.getItem("loggedInUser"));
+      // setUserEmail(localStorage.getItem("loggedInUser") || "");
     }
     checkForWhitelist(userEmail);
   }, [userEmail]);
@@ -84,9 +90,9 @@ const MatSidebar = () => {
     <>
       <div className="flex flex-row justify-start align-top">
         <div className="">
-          <Card className="h-[calc(100vh-1rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
+          <Card className="h-[calc(100vh-1rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5" placeholder={undefined}>
             <div className="mb-2 p-4">
-              <Typography variant="h5" color="blue-gray">
+              <Typography variant="h5" color="blue-gray" placeholder={undefined}>
                 Lenspost Admin
               </Typography>
             </div>
@@ -95,7 +101,7 @@ const MatSidebar = () => {
 
             {userEmail && (
               <div className="mb-0 p-4">
-                <Typography variant="h6" color="blue-gray">
+                <Typography variant="h6" color="blue-gray" placeholder={undefined}>
                   {userEmail}
                 </Typography>
               </div>
@@ -103,12 +109,21 @@ const MatSidebar = () => {
 
             <hr />
 
-            <List>
+            <List placeholder={undefined}>
               {userEmail && isWhitelisted && (
                 <>
+                  <Link to="/oneStepUpload">
+                    <ListItem placeholder={undefined}>
+                      <ListItemPrefix placeholder={undefined}>
+                        <CubeIcon className="h-5 w-5" />
+                      </ListItemPrefix>
+                      One Step Upload
+                    </ListItem>
+                  </Link>
+
                   <Link to="/fileToS3">
-                    <ListItem>
-                      <ListItemPrefix>
+                    <ListItem placeholder={undefined}>
+                      <ListItemPrefix placeholder={undefined}>
                         <CubeIcon className="h-5 w-5" />
                       </ListItemPrefix>
                       Upload Files to S3
@@ -116,8 +131,8 @@ const MatSidebar = () => {
                   </Link>
 
                   <Link to="/getAssetJSON">
-                    <ListItem>
-                      <ListItemPrefix>
+                    <ListItem placeholder={undefined}>
+                      <ListItemPrefix placeholder={undefined}>
                         <CodeBracketIcon className="h-5 w-5" />
                       </ListItemPrefix>
                       Get Asset JSON
@@ -125,8 +140,8 @@ const MatSidebar = () => {
                   </Link>
 
                   <Link to="/uploadToDb">
-                    <ListItem>
-                      <ListItemPrefix>
+                    <ListItem placeholder={undefined}>
+                      <ListItemPrefix placeholder={undefined}>
                         <ServerStackIcon className="h-5 w-5" />
                       </ListItemPrefix>
                       Upload to DB
@@ -134,8 +149,8 @@ const MatSidebar = () => {
                   </Link>
 
                   <Link to="/deleteCache">
-                    <ListItem>
-                      <ListItemPrefix>
+                    <ListItem placeholder={undefined}>
+                      <ListItemPrefix placeholder={undefined}>
                         <UserCircleIcon className="h-5 w-5" />
                       </ListItemPrefix>
                       Delete specific Cache
@@ -146,8 +161,8 @@ const MatSidebar = () => {
                   </Link>
 
                   <Link to="/deleteCacheByPattern">
-                    <ListItem>
-                      <ListItemPrefix>
+                    <ListItem placeholder={undefined}>
+                      <ListItemPrefix placeholder={undefined}>
                         <InboxIcon className="h-5 w-5" />
                       </ListItemPrefix>
                       Delete Cache by Pattern
@@ -155,16 +170,16 @@ const MatSidebar = () => {
                   </Link>
 
                   <Link to="/templates">
-                    <ListItem>
-                      <ListItemPrefix>
+                    <ListItem placeholder={undefined}>
+                      <ListItemPrefix placeholder={undefined}>
                         <InboxIcon className="h-5 w-5" />
                       </ListItemPrefix>
                       Templates
                     </ListItem>
                   </Link>
                   <Link to="/users">
-                    <ListItem>
-                      <ListItemPrefix>
+                    <ListItem placeholder={undefined}>
+                      <ListItemPrefix placeholder={undefined}>
                         <InboxIcon className="h-5 w-5" />
                       </ListItemPrefix>
                       Users
@@ -172,8 +187,8 @@ const MatSidebar = () => {
                   </Link>
 
                   <Link to="/settings">
-                    <ListItem>
-                      <ListItemPrefix>
+                    <ListItem placeholder={undefined}>
+                      <ListItemPrefix placeholder={undefined}>
                         <Cog6ToothIcon className="h-5 w-5" />
                       </ListItemPrefix>
                       Settings
@@ -181,8 +196,8 @@ const MatSidebar = () => {
                   </Link>
 
                   <Link to="/logout">
-                    <ListItem onClick={logout}>
-                      <ListItemPrefix>
+                    <ListItem onClick={logout} placeholder={undefined}>
+                      <ListItemPrefix placeholder={undefined}>
                         <PowerIcon className="h-5 w-5" />
                       </ListItemPrefix>
                       Logout
@@ -193,15 +208,15 @@ const MatSidebar = () => {
 
               {userEmail && !isWhitelisted && (
                 <>
-                  <ListItem onClick={() => console.log("Check For Whitelist")}>
-                    <ListItemPrefix>
+                  <ListItem onClick={() => console.log("Check For Whitelist")} placeholder={undefined}>
+                    <ListItemPrefix placeholder={undefined}>
                       <EyeIcon className="h-5 w-5" />
                     </ListItemPrefix>
                     <Alert color="amber">User is not Whitelisted</Alert>
                   </ListItem>
 
-                  <ListItem onClick={logout}>
-                    <ListItemPrefix>
+                  <ListItem onClick={logout} placeholder={undefined}>
+                    <ListItemPrefix placeholder={undefined}>
                       <PowerIcon className="h-5 w-5" />
                     </ListItemPrefix>
                     Logout
@@ -210,8 +225,8 @@ const MatSidebar = () => {
               )}
 
               {!userEmail && (
-                <ListItem onClick={login}>
-                  <ListItemPrefix>
+                <ListItem onClick={login} placeholder={undefined}>
+                  <ListItemPrefix placeholder={undefined}>
                     <PowerIcon className="h-5 w-5" />
                   </ListItemPrefix>
                   Login

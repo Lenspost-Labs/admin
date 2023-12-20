@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Button, Textarea } from "@material-tailwind/react";
 import axios from "axios";
 
-const DelSpecificCachePage = () => {
+const DelCacheByPatternPage = () => {
   const [cache, setCache] = useState("");
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
 
     try {
@@ -14,7 +14,7 @@ const DelSpecificCachePage = () => {
         },
       };
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/deleteSpecificCache`,
+        `${import.meta.env.VITE_BACKEND_URL}/deleteCacheByPattern`,
         {
           data: cache,
         },
@@ -25,7 +25,7 @@ const DelSpecificCachePage = () => {
       console.log(err);
     }
   };
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCache(event.target.value);
   };
 
@@ -34,9 +34,9 @@ const DelSpecificCachePage = () => {
       <div className="w-full">
         <Textarea
           className="h-96 "
-          type="text"
-          label="Delete Cache"
-          name="Delete Cache"
+          // type="text"
+          label="Enter Pattern"
+          name="Delete Matching Cache"
           value={cache}
           onChange={(e) => handleInputChange(e)}
         />
@@ -44,12 +44,12 @@ const DelSpecificCachePage = () => {
 
       <br />
 
-      <Button fullWidth className="mt-2" type="submit" onClick={handleSubmit}>
+      <Button fullWidth className="mt-2" type="submit" onClick={handleSubmit} placeholder={undefined}>
         {" "}
-        Delete Cache{" "}
+        Delete Matching Pattern Cache{" "}
       </Button>
     </div>
   );
 };
 
-export default DelSpecificCachePage;
+export default DelCacheByPatternPage;

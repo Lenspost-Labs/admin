@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import {
   Alert,
@@ -7,11 +7,11 @@ import {
   CardBody,
   CardFooter,
   Input,
-  Switch,
   Textarea,
   Typography,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import React from "react";
 
 // const BE_URL = import.meta.env.VITE_BACKEND_URL;
 const BE_URL = import.meta.env.VITE_BACKEND_URL;
@@ -30,12 +30,12 @@ const FormGetAsset = () => {
     featured: false,
   });
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
     const { name, value } = event.target;
     console.log(stickerData);
 
     if (name === "tags") {
-      const tagsArray = value.split(",").map((tag) => tag.trim());
+      const tagsArray = value.split(",").map((tag: string) => tag.trim());
       setStickerData({
         ...stickerData,
         [name]: tagsArray,
@@ -48,7 +48,7 @@ const FormGetAsset = () => {
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
 
     try {
@@ -58,7 +58,7 @@ const FormGetAsset = () => {
         },
       };
       let jsondata = stickerData;
-      jsondata.data = jsondata.data.split(",");
+      jsondata.data = jsondata.data.join(",").split(",");
       console.log(jsondata);
 
       const response = await axios.post(
@@ -89,8 +89,7 @@ const FormGetAsset = () => {
           label="Asset Name"
           name="stickerName"
           value={stickerData.stickerName}
-          onChange={handleInputChange}
-        />
+          onChange={handleInputChange} crossOrigin={undefined}        />
 
         <br />
 
@@ -99,8 +98,7 @@ const FormGetAsset = () => {
           label="Asset Author"
           name="stickerAuthor"
           value={stickerData.stickerAuthor}
-          onChange={handleInputChange}
-        />
+          onChange={handleInputChange} crossOrigin={undefined}        />
 
         <br />
 
@@ -109,8 +107,7 @@ const FormGetAsset = () => {
           label="Type"
           name="type"
           value={stickerData.type}
-          onChange={handleInputChange}
-        />
+          onChange={handleInputChange} crossOrigin={undefined}        />
 
         <br />
         <Input
@@ -118,8 +115,7 @@ const FormGetAsset = () => {
           label="Wallet"
           name="wallet"
           value={stickerData.wallet}
-          onChange={handleInputChange}
-        />
+          onChange={handleInputChange} crossOrigin={undefined}        />
 
         <br />
         <Input
@@ -127,12 +123,12 @@ const FormGetAsset = () => {
           label="Campaign"
           name="campaign"
           value={stickerData.campaign}
-          onChange={handleInputChange}
-        />
+          onChange={handleInputChange} crossOrigin={undefined}        />
 
         <br />
         <Textarea
-          type="text"
+          // Remove the 'type' attribute
+          // type="text"
           label="tags"
           name="tags"
           value={stickerData.tags}
@@ -142,7 +138,7 @@ const FormGetAsset = () => {
         <br />
 
         <Textarea
-          type="text"
+            // type="textarea"
           label="data"
           name="data"
           value={stickerData.data}
@@ -162,13 +158,12 @@ const FormGetAsset = () => {
           type="text"
           label="Featured [True/False]"
           name="featured"
-          value={stickerData.featured}
-          onChange={handleInputChange}
-        />
+          value={stickerData.featured.toString()}
+          onChange={handleInputChange} crossOrigin={undefined}        />
 
         <br />
 
-        <Button fullWidth className="mt-8" type="submit">
+        <Button fullWidth className="mt-8" type="submit" placeholder={undefined}>
           {" "}
           Get Asset JSON{" "}
         </Button>
@@ -186,15 +181,15 @@ const FormGetAsset = () => {
       </Alert>
 
       {resAssetJSON && (
-        <Card className="mt-6 w-96">
-          <CardBody>
-            <Typography variant="h6" color="blue-gray" className="mb-2">
+        <Card className="mt-6 w-96" placeholder={undefined}>
+          <CardBody placeholder={undefined}>
+            <Typography variant="h6" color="blue-gray" className="mb-2" placeholder={undefined}>
               Copy and paste in <Link to="/uploadToDB">Upload to DB Page</Link>
             </Typography>
-            <Typography>{resAssetJSON}</Typography>
+            <Typography placeholder={undefined}>{resAssetJSON}</Typography>
           </CardBody>
-          <CardFooter className="pt-0">
-            <Button color="blue" fullWidth onClick={handleCopyToClipboard}>
+          <CardFooter className="pt-0" placeholder={undefined}>
+            <Button color="blue" fullWidth onClick={handleCopyToClipboard} placeholder={undefined}>
               Click to Copy{" "}
             </Button>
           </CardFooter>

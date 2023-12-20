@@ -1,0 +1,1 @@
+This folder contains all the different contexts essential for the App

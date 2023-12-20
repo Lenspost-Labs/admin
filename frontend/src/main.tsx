@@ -13,15 +13,25 @@ import {
   AssetJSONPage,
   TemplatesPage,
   UsersPage,
+  OneStepUpload,
 } from "./routes";
 import App from "./App";
 
+// All packages except `@mantine/hooks` require styles imports
+import "@mantine/core/styles.css";
+
+import { MantineProvider } from "@mantine/core";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
+      {
+        path: "/oneStepUpload",
+        element: <OneStepUpload />,
+        errorElement: <ErrorPage />,
+      },
       {
         path: "/fileToS3",
         element: <FileToS3Page />,
@@ -49,7 +59,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/templates",
-        element: <TemplatesPage/>,
+        element: <TemplatesPage />,
         errorElement: <ErrorPage />,
       },
       {
@@ -71,8 +81,10 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <MantineProvider>
+      <RouterProvider router={router} />
+    </MantineProvider>
   </React.StrictMode>
 );

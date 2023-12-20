@@ -8,9 +8,9 @@ const FormUploadToDB = () => {
   const BE_URL = import.meta.env.VITE_BACKEND_URL;
   const [openAlert, setOpenAlert] = useState(false);
 
-  const [dataUploadToDB, setDataUploadToDB] = useState([]);
+  const [dataUploadToDB, setDataUploadToDB] = useState<String[]>([]);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
 
     try {
@@ -34,8 +34,9 @@ const FormUploadToDB = () => {
     }
   };
 
-  const handleInputChange = (event) => {
-    setDataUploadToDB(event.target.value);
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setDataUploadToDB(event.target.value.split('\n'));
+    console.log(event.target.value);
   };
 
   return (
@@ -55,17 +56,17 @@ const FormUploadToDB = () => {
         <div className="w-full">
           <Textarea
             className="h-96 "
-            type="text"
+            // type="text"
             label="Asset JSON"
             name="assetJSON"
-            value={dataUploadToDB}
+            // value={dataUploadToDB}
             onChange={(e) => handleInputChange(e)}
           />
         </div>
 
         <br />
 
-        <Button fullWidth className="mt-2" type="submit">
+        <Button fullWidth className="mt-2" type="submit"  placeholder={undefined}>
           {" "}
           Upload to DB{" "}
         </Button>

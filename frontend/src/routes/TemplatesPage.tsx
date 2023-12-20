@@ -1,10 +1,18 @@
-import { Chip, Typography } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
+
+interface Template {
+  id: string;
+  image: string;
+  name: string;
+  createdAt: string;
+}
 
 const TemplatesPage = () => {
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-  const [templatesArray, setTemplatesArray] = useState([]); 
+  const [templatesArray, setTemplatesArray] = useState<Template[]>([]); 
   
   const fnViewTemplate = async () => {
     try {
@@ -30,7 +38,7 @@ const TemplatesPage = () => {
   return (
     <>
       <div className="m-8">
-        <Typography color="blue-gray" className="mb-4 mt-4">
+        <Typography placeholder={undefined} color="blue-gray" className="mb-4 mt-4">
           Templates
         </Typography>
 

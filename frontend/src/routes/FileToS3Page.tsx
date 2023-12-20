@@ -12,10 +12,10 @@ import { Link } from "react-router-dom";
 
 const FileToS3Page = () => {
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-  const [arrImageUrls, setArrImageUrls] = useState([]);
+  const [arrImageUrls, setArrImageUrls] = useState<String[]>([]);
   const [openAlert, setOpenAlert] = useState(false);
 
-  const handleFileUpload = async (event) => {
+  const handleFileUpload = async (event: { target: { files: any; }; }) => {
     console.log("FileToS3Page Start");
 
     const files = event.target.files;
@@ -49,16 +49,16 @@ const FileToS3Page = () => {
 
       console.log("Files uploaded successfully:", response);
 
-      const resImageUrls = [];
+      const resImageUrls: any[] | ((prevState: never[]) => never[]) = [];
 
-      response.data.map((imageUrl) => {
+      response.data.map((imageUrl: any) => {
         console.log("imageUrl", imageUrl);
         resImageUrls.push(imageUrl);
       });
 
       console.log("resImageUrls", resImageUrls);
 
-      setArrImageUrls(resImageUrls);
+      setArrImageUrls(resImageUrls as any[]);
     } catch (error) {
       console.error("Error uploading files:", error);
     }
@@ -68,16 +68,14 @@ const FileToS3Page = () => {
 
   const handleCopyToClipboard = () => {
     if (!arrImageUrls) return;
-
-    navigator.clipboard.writeText(arrImageUrls);
-
+    navigator.clipboard.writeText(arrImageUrls.join(", "));
     setOpenAlert(true);
   };
 
   return (
     <div className="flex flex-col justify-center w-full m-8">
       <form encType="multipart/form-data">
-        <Typography color="blue-gray" className="mb-4 mt-4">
+        <Typography placeholder={undefined} color="blue-gray" className="mb-4 mt-4">
           Choose Files to Upload directly to S3 Bucket
         </Typography>
 
@@ -96,16 +94,16 @@ const FileToS3Page = () => {
       </Alert>
 
       {arrImageUrls.length > 0 && (
-        <Card className="mt-6 w-96">
-          <CardBody>
-            <Typography variant="h6" color="blue-gray" className="mb-2">
+        <Card className="mt-6 w-96" placeholder={undefined}>
+          <CardBody placeholder={undefined}>
+            <Typography variant="h6" color="blue-gray" className="mb-2" placeholder={undefined}>
               Copy and paste in{" "}
               <Link to="/getAssetJSON">Get Asset JSON Page</Link>
             </Typography>
-            <Typography>{arrImageUrls}</Typography>
+            <Typography placeholder={undefined}>{arrImageUrls}</Typography>
           </CardBody>
-          <CardFooter className="pt-0">
-            <Button color="blue" fullWidth onClick={handleCopyToClipboard}>
+          <CardFooter className="pt-0" placeholder={undefined}>
+            <Button color="blue" fullWidth onClick={handleCopyToClipboard} placeholder={undefined}>
               Click to Copy{" "}
             </Button>
           </CardFooter>
