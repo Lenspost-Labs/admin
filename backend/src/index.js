@@ -10,6 +10,7 @@ const auth = require("./middleware/auth");
 const showCollections = require("./collections/showCollections");
 const showTemplates = require("./templates/showTemplates");
 const showUsers = require("./users/showUsers");
+const editUser = require("./users/editUser");
 
 const dotenv = require("dotenv");
 
@@ -32,6 +33,7 @@ app.use("/uploadToDb", auth, uploadToDb);
 app.use("/collections", auth, showCollections);
 app.use("/templates", auth, showTemplates);
 app.use("/users", auth, showUsers);
+app.use("/editUser", auth, editUser);
 
 let PORT = process.env.PORT || 3000;
 
