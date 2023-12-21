@@ -8,9 +8,6 @@ import {
   LogoutPage,
   SettingsPage,
   ErrorPage,
-  FileToS3Page,
-  UploadToDBPage,
-  AssetJSONPage,
   TemplatesPage,
   UsersPage,
   OneStepUpload,
@@ -21,6 +18,7 @@ import App from "src/App";
 import "@mantine/core/styles.css";
 
 import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,21 +28,6 @@ const router = createBrowserRouter([
       {
         path: "/oneStepUpload",
         element: <OneStepUpload />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "/fileToS3",
-        element: <FileToS3Page />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "/getAssetJSON",
-        element: <AssetJSONPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "/uploadToDB",
-        element: <UploadToDBPage />,
         errorElement: <ErrorPage />,
       },
       {

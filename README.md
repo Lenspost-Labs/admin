@@ -9,6 +9,7 @@ This is the official repository for Lenspost Admin
 
  Clone the Repo and Install all the dependencies
 
+Backend
 ```bash
     1. cd backend 
 ```
@@ -16,29 +17,35 @@ This is the official repository for Lenspost Admin
     2. yarn && yarn dev
 ```
 
-Run the backend service and Start the Frontend server
-
+Frontend
 ```bash
-    1. yarn && yarn dev
+    1. cd frontend 
+```
+```bash
+    2. yarn && yarn dev
 ```
 
 
 
 ## Environmental Variables
- Use the .env.example template for env in the backend folder 
+ Use the .env.example template for env
 
  
+
+## Developers using this codebase
+
+Here's a quick guide while using imports : 
+- Do not use relative imports 
+    -   Ex : `../../../component`
+
+        instead, use `src/folderName/subFolderName/component`
+    
+    - Always start imports with `src` (since it is already configured for this project in `tsconfig.json` and `vite.config.ts)`
+
+
 
 ## Deployment
 
 - [Live](https://admin.lenspost.xyz)
 - [Staging](https://thunderous-bienenstitch-10e784.netlify.app/)
 
-
-## Developers using this codebase
-
-Here's a quick guide while using imports : 
-    1. Do not use relative imports Ex : ../../../component
-        instead, use src/folderName/subFolderName/component
-    
-        Always start imports with `src` (since it is already configured for this project in tsconfig.json and vite.config.ts)

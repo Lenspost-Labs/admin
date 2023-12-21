@@ -1,28 +1,19 @@
+import { Loader } from "@mantine/core";
 import { Typography } from "@material-tailwind/react";
-import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
-
+import { apiGetTemplates } from "src/apis/backendApis/TemplatesApi";
 
 const TemplatesPage = () => {
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-  const [templatesArray, setTemplatesArray] = useState<Template[]>([]); 
-  
-  const fnViewTemplate = async () => {
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("jwt")} `,
-        },
-      };
-      const response = await axios.get(`${BACKEND_URL}/templates`, config);
+  const [templatesArray, setTemplatesArray] = useState<Template[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
-      console.log("Templates:", response);
-      setTemplatesArray(response.data.assets);
-    } catch (error) {
-      console.error("Error getting templates:", error);
-    }
+  const fnViewTemplate = async () => {
+    setLoading(true);
+    const response = await apiGetTemplates();
+    console.log("Templates:", response);
+    setTemplatesArray(response?.data.assets);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -31,13 +22,17 @@ const TemplatesPage = () => {
 
   return (
     <>
-      <div className="m-8">
-        <Typography placeholder={undefined} color="blue-gray" className="mb-4 mt-4">
+      <div className="">
+        <Typography
+          placeholder={undefined}
+          color="blue-gray"
+          className="mb-4 mt-4"
+        >
           Templates
         </Typography>
 
         <div className="flex flex-wrap">
-          {templatesArray.length > 0 ? (
+          {templatesArray.length > 0 &&
             templatesArray.map((template) => (
               <div key={template.id} className="m-4">
                 {/* <p>{template.createdAt}</p> */}
@@ -50,10 +45,16 @@ const TemplatesPage = () => {
                   {template.name}
                 </div>
               </div>
-            ))
-          ) : (
-            <p>No templates</p>
-          )}{" "}
+            ))}
+
+          {loading && (
+            <div className="m-4 text-yellow-800 align-middle">
+              <p> <Loader /> </p>
+             
+            </div>
+          )}
+
+          {templatesArray.length === 0 && !loading && <p>No templates</p>}
         </div>
       </div>
     </>

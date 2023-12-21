@@ -1,12 +1,14 @@
 import React from "react";
-import { MatSidebar } from "src/components";
 import { AppContextProvider } from "src/context";
+import MantineAppShell from "./components/MantineAppShell";
+import { Notifications } from "@mantine/notifications";
 
 const App = () => {
   return (
     <>
       <AppContextProvider>
-        <MatSidebar />
+        <Notifications position="top-right" />
+        <MantineAppShell />
       </AppContextProvider>
     </>
   );

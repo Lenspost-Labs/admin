@@ -29,8 +29,7 @@ const uploadToS3 = async (file, key, folderName) => {
 router.post("/", auth, upload.array("files"), async (req, res) => {
   try {
     // You need to change the folderName to location you want the files to be uploaded.
-    let folderName = "test".trim().replace(/\/$/, "");
-
+    let folderName = req.body.folderName.trim().replace(/\/$/, "");
     const files = req.files;
     let urls = [];
     const imageUrls = await Promise.all(
