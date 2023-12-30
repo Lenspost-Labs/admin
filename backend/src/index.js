@@ -13,6 +13,7 @@ const showUsers = require("./users/showUsers");
 const addTask = require("./tasks/addTask");
 const getTask = require("./tasks/getTask");
 const getAllPointsHistory = require("./rewards/getAllPointsHistory");
+const editUser = require("./users/editUser");
 
 const dotenv = require("dotenv");
 
@@ -38,6 +39,7 @@ app.use("/users", auth, showUsers);
 app.use("/getTask", auth, getTask);
 app.use("/addTask", auth, addTask);
 app.use("/getAllPointsHistory", auth, getAllPointsHistory);
+app.use("/editUser", auth, editUser);
 
 let PORT = process.env.PORT || 3000;
 
