@@ -11,6 +11,7 @@ import {
   TemplatesPage,
   UsersPage,
   OneStepUpload,
+  CollectionsPage
 } from "src/pages";
 import App from "src/App";
 
@@ -57,6 +58,11 @@ const router = createBrowserRouter([
       {
         path: "/logout",
         element: <LogoutPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/collections",
+        element: <CollectionsPage />,
         errorElement: <ErrorPage />,
       },
     ],

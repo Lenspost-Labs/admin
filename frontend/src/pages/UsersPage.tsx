@@ -5,7 +5,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
-import { apiEditUserDetails, apiGetUsers } from "src/apis/backendApis/UsersApi";
+import { apiEditUserDetails, apiGetAllUsers } from "src/apis/backendApis/UsersApi";
 import { Table } from "@mantine/core";
 import { IconEdit, IconSearch } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
@@ -39,7 +39,7 @@ const UsersPage = () => {
 
   const fnViewUsers = async () => {
     setLoading(true);
-    const response = await apiGetUsers();
+    const response = await apiGetAllUsers();
 
     console.log("Users:", response);
     setUsersArray(response?.data);

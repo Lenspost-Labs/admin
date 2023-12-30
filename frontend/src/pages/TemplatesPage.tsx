@@ -2,7 +2,7 @@ import { Loader } from "@mantine/core";
 import { Typography } from "@material-tailwind/react";
 import React from "react";
 import { useEffect, useState } from "react";
-import { apiGetTemplates } from "src/apis/backendApis/TemplatesApi";
+import { apiGetAllTemplates } from "src/apis/backendApis/TemplatesApi";
 
 const TemplatesPage = () => {
   const [templatesArray, setTemplatesArray] = useState<Template[]>([]);
@@ -10,7 +10,7 @@ const TemplatesPage = () => {
 
   const fnViewTemplate = async () => {
     setLoading(true);
-    const response = await apiGetTemplates();
+    const response = await apiGetAllTemplates();
     console.log("Templates:", response);
     setTemplatesArray(response?.data.assets);
     setLoading(false);

@@ -7,6 +7,8 @@ import ErrorPage from "./utils/ErrorPage.js";
 import TemplatesPage from "./TemplatesPage.js";
 import UsersPage from "./UsersPage.js";
 import OneStepUpload from "./oneStepUploadPage/index.js";
+import CollectionsPage from "./CollectionsPage.js";
+
 
 export {
   DelCacheByPatternPage,
@@ -17,4 +19,5 @@ export {
   TemplatesPage,
   UsersPage,
   OneStepUpload,
+  CollectionsPage
 };

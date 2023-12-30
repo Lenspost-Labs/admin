@@ -1,22 +1,18 @@
-import { AppShell, Burger, Button, Group, NavLink } from "@mantine/core";
+import { AppShell, Burger, Group, NavLink } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
   IconHome2,
-  IconGauge,
-  IconActivity,
-  IconCircleOff,
   IconUser,
-  IconGitBranchDeleted,
   IconGridPattern,
   IconSquareRoundedLetterD,
   IconTemplate,
+  IconGraphFilled,
 } from "@tabler/icons-react";
 import { Link, Outlet } from "react-router-dom";
 import { AppContext } from "src/context/AppContext";
 import LoginBtn from "src/utils/LoginBtn";
 import LogoutBtn from "src/utils/LogoutBtn";
-import { fnCheckWhitelist } from "src/utils/fnCheckWhitelist";
 
 const MantineAppShell = () => {
   const { userEmail, isWhitelisted } = useContext(AppContext);
@@ -53,6 +49,11 @@ const MantineAppShell = () => {
       name: "Templates",
       route: "/templates",
       icon: <IconTemplate size="1rem" stroke={1.5} />,
+    },
+    {
+      name: "Collections",
+      route: "/collections",
+      icon: <IconGraphFilled size="1rem" stroke={1.5} />,
     },
   ];
   return (
