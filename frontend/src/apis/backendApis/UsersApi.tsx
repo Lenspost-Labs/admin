@@ -1,8 +1,18 @@
 import { apiInstance, config } from "src/apis/backendApis/config/AxiosConfig";
 
-export const apiGetUsers = async () => {
+export const apiGetAllUsers = async () => {
   try {
-    const response = await apiInstance.get(`/users`, config);
+    const response = await apiInstance.get(`/users/showUsers`, config);
+    console.log("Users:", response);
+    return response;
+  } catch (error) {
+    console.error("Error getting Users:", error);
+  }
+};
+
+export const apiSpecific = async () => {
+  try {
+    const response = await apiInstance.get(`users/user`, config);
     console.log("Users:", response);
     return response;
   } catch (error) {
@@ -12,7 +22,7 @@ export const apiGetUsers = async () => {
 
 export const apiEditUserDetails = async (data: any) => {
   try {
-    const response = await apiInstance.post(`/editUser`, data, config);
+    const response = await apiInstance.post(`/users/editUser`, data, config);
     console.log("User updated successfully:", response);
     return response;
   } catch (error) {
