@@ -2,7 +2,19 @@ const express = require("express");
 const prisma = require("../prisma");
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+router.get("/", async (req, res) => {
+  try {
+    const tasks = await prisma.tasks.findMany();
+    res.status(200).json(tasks);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.post("/add", async (req, res) => {
+
+
   try {
     const tasks = await prisma.tasks.create({
       data: {
@@ -11,7 +23,6 @@ router.post("/", async (req, res) => {
         locked: true,
         amount: 10,
         name: "Lenspost Admin Test",
-        campaign: "Admin",
       },
     });
     res.json(tasks);

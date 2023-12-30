@@ -9,8 +9,7 @@ const uploadToDb = require("./scripts/uploadToDb");
 const auth = require("./middleware/auth");
 const showCollections = require("./collections/showCollections");
 const templates = require("./templates/templates");
-const addTask = require("./tasks/addTask");
-const getTask = require("./tasks/getTask");
+const tasks = require("./tasks/tasks");
 const getAllPointsHistory = require("./rewards/getAllPointsHistory");
 const users = require("./users/users.js");
 
@@ -34,8 +33,7 @@ app.use("/checkWhitelist", checkWhitelist);
 app.use("/uploadToDb", auth, uploadToDb);
 app.use("/collections", auth, showCollections);
 app.use("/templates", auth, templates);
-app.use("/getTask", auth, getTask);
-app.use("/addTask", auth, addTask);
+app.use("/tasks", auth, tasks);
 app.use("/getAllPointsHistory", auth, getAllPointsHistory);
 app.use("/users", auth, users);
 
