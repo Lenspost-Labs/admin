@@ -4,9 +4,10 @@ const prisma = require("../prisma");
 
 router.get("/user", async (req, res) => {
   try {
+    let id = req.body.id;
     const users = await prisma.owners.findUnique({
       where: {
-        id: req.body.id,
+        id,
       },
     });
 
