@@ -27,7 +27,7 @@ Run the backend service and Start the Frontend server
 ## Environmental Variables
  Use the .env.example template for env in the backend folder 
 
- 
+
 
 ## Deployment
 

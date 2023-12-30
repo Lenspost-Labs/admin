@@ -1,0 +1,1 @@
+This folder contains all the utility functions and components required by the App

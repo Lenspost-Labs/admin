@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const generateJwt = require("../utils/generateJwt");
-const jsonwebtoken = require("jsonwebtoken");
 
 const whitelistedEmails = ["sugatobagchi@dsec.ac.in", "tirumaladasa@gmail.com", "aryan@lenspost.xyz", "chakra@lenspost.xyz", "cybershakti@lenspost.xyz"];
 
