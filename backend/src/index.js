@@ -12,6 +12,7 @@ const showTemplates = require("./templates/showTemplates");
 const showUsers = require("./users/showUsers");
 const addTask = require("./tasks/addTask");
 const getTask = require("./tasks/getTask");
+const getAllPointsHistory = require("./rewards/getAllPointsHistory");
 
 const dotenv = require("dotenv");
 
@@ -36,6 +37,7 @@ app.use("/templates", auth, showTemplates);
 app.use("/users", auth, showUsers);
 app.use("/getTask", auth, getTask);
 app.use("/addTask", auth, addTask);
+app.use("/getAllPointsHistory", auth, getAllPointsHistory);
 
 let PORT = process.env.PORT || 3000;
 
@@ -43,4 +45,3 @@ app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}/`);
 });
 
-// Only option do delete / add templates, not to remove users but to edit them…
