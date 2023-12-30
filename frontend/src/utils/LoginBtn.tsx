@@ -12,6 +12,7 @@ const LoginBtn = () => {
   const {setUserEmail, setAuthToken, setIsWhitelisted } = useContext(AppContext);
 
   const fnLogin = async () => {
+    localStorage.removeItem("jwt");
 
     const result = await signInWithPopup(auth, googleAuth);
 
@@ -19,10 +20,10 @@ const LoginBtn = () => {
     setUserEmail(result.user.email ?? "");
     
     const resWL = await fnCheckWhitelist(result.user.email ?? "");
-    localStorage.setItem("jwt", resWL?.token);
     setIsWhitelisted(resWL?.whitelisted);
     setAuthToken(resWL?.token);
-  
+    localStorage.setItem("jwt", resWL?.token);
+    
   }
 
 

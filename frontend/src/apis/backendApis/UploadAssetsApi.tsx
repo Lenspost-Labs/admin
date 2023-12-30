@@ -1,7 +1,9 @@
 import { apiInstance, config } from "src/apis/backendApis/config/AxiosConfig";
 
 export const apiUploadToS3 = async (files: FormData) => {
+  console.log(localStorage.getItem("jwt"));
   try {
+    console.log(apiInstance);
     const response = await apiInstance.post(`/fileToS3`, files, config);
     console.log("Files uploaded successfully:", response);
     return response?.data;
