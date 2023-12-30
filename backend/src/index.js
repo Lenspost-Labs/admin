@@ -9,11 +9,10 @@ const uploadToDb = require("./scripts/uploadToDb");
 const auth = require("./middleware/auth");
 const showCollections = require("./collections/showCollections");
 const showTemplates = require("./templates/showTemplates");
-const showUsers = require("./users/showUsers");
 const addTask = require("./tasks/addTask");
 const getTask = require("./tasks/getTask");
 const getAllPointsHistory = require("./rewards/getAllPointsHistory");
-const editUser = require("./users/editUser");
+const users = require("./users/users.js");
 
 const dotenv = require("dotenv");
 
@@ -35,11 +34,10 @@ app.use("/checkWhitelist", checkWhitelist);
 app.use("/uploadToDb", auth, uploadToDb);
 app.use("/collections", auth, showCollections);
 app.use("/templates", auth, showTemplates);
-app.use("/users", auth, showUsers);
 app.use("/getTask", auth, getTask);
 app.use("/addTask", auth, addTask);
 app.use("/getAllPointsHistory", auth, getAllPointsHistory);
-app.use("/editUser", auth, editUser);
+app.use("/users", auth, users);
 
 let PORT = process.env.PORT || 3000;
 
