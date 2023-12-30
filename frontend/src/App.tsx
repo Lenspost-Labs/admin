@@ -1,9 +1,10 @@
 import React from "react";
-import { AppContextProvider } from "src/context";
 import MantineAppShell from "./components/MantineAppShell";
 import { Notifications } from "@mantine/notifications";
+import AppContextProvider from "./context/AppContext";
 
 const App = () => {
+
   return (
     <>
       <AppContextProvider>

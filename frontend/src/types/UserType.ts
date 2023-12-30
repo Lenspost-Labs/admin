@@ -1,10 +1,10 @@
 interface User {
     id: number;
+    profileId: string;
     username: string;
-    evm_address: string;
-    solana_address: string;
     lens_handle: string;
     mail: string;
     points: number;
-    profileId: number;
+    evm_address: string;
+    solana_address: string;
   }

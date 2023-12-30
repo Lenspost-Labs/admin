@@ -2,11 +2,12 @@ import { apiInstance } from "src/apis/backendApis/config/AxiosConfig";
 
 export const apiCheckWhitelist = async (data: any) => {
   const newConfig = {
-    "headers": {
+    // ...config,
+    headers: {
+      // ...config.headers,
       "Content-Type": "application/json",
-      "Accept": "application/json"
-    }
-  }
+    },
+  };
   try {
     const response = await apiInstance.post(`/checkWhitelist`, data, newConfig);
     console.log("Whitelist checked successfully:", response);
@@ -15,4 +16,3 @@ export const apiCheckWhitelist = async (data: any) => {
     console.error("Error checking whitelist", error);
   }
 };
-
