@@ -3,6 +3,7 @@ const router = express.Router();
 const prisma = require("../prisma");
 
 router.get("/", async (req, res) => {
+  // Shows Templates
   try {
     let page = req.query.page;
     page = parseInt(page);

@@ -2,12 +2,23 @@ const express = require("express");
 const router = express.Router();
 const prisma = require("../prisma");
 
-router.get("/showUsers", async (req, res) => {
+router.get("/user", async (req, res) => {
   try {
-    const users = await prisma.owners.findMany({
+    const users = await prisma.owners.findUnique({
       where: {
         id: req.body.id,
       },
+    });
+
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get("/showUsers", async (req, res) => {
+  try {
+    const users = await prisma.owners.findMany({
       orderBy: {
         id: "asc",
       },
@@ -21,7 +32,8 @@ router.get("/showUsers", async (req, res) => {
 
 router.post("/editUser", async (req, res) => {
   console.log(req.body);
-  const { id, evm_address, solana_address, lens_handle, username, points } = req.body;
+  const { id, evm_address, solana_address, lens_handle, username, points } =
+    req.body;
   try {
     await prisma.owners.update({
       where: {
