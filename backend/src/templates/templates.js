@@ -44,7 +44,7 @@ router.get("/", async (req, res) => {
 router.post("/add", async (req, res) => {
   let { name, image, tags, data } = req.body;
   try {
-    await prisma.templates.create({
+    await prisma.templates.createMany({
       data: {
         name,
         image,
