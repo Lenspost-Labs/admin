@@ -1,45 +1,23 @@
+import { Button, Loader, Modal, TextInput } from "@mantine/core";
+import React, { useContext, useEffect, useState } from "react";
 import {
-  Button,
-  Loader,
-  Modal,
-  TextInput,
-} from "@mantine/core";
-import React, { useEffect, useState } from "react";
-import { apiEditUserDetails, apiGetUsers } from "src/apis/backendApis/UsersApi";
+  apiGetAllUsers,
+} from "src/apis/backendApis/UsersApi";
 import { Table } from "@mantine/core";
 import { IconEdit, IconSearch } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
+import {AppContext} from "src/context/AppContext";
 
 const UsersPage = () => {
   const [usersArray, setUsersArray] = useState<User[]>([]);
   const [globalUsersArray, setGlobalUsersArray] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [opened, { open, close }] = useDisclosure(false);
-  const [editIndex, setEditIndex] = useState<number>(0);
-  const {
-    id,
-    profileId,
-    username,
-    lens_handle,
-    mail,
-    points,
-    evm_address,
-    solana_address,
-  } = usersArray[editIndex || 0] || {};
-  const [editUser, setEditUser] = useState({
-    id: id,
-    profileId: profileId,
-    username: username,
-    lens_handle: lens_handle,
-    mail: mail,
-    points: points,
-    evm_address: evm_address,
-    solana_address: solana_address,
-  }); //To implement Edit
+const { setEditUserIndex } = useContext(AppContext);
 
   const fnViewUsers = async () => {
     setLoading(true);
-    const response = await apiGetUsers();
+    const response = await apiGetAllUsers();
 
     console.log("Users:", response);
     setUsersArray(response?.data);
@@ -60,16 +38,9 @@ const UsersPage = () => {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let { name, value } = e.target;
-    setEditUser((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
 
   const fnUpdateUser = async () => {
-    console.log("editUser:", editUser);
+    // console.log("editUser:", editUser);
     // const response = await apiEditUserDetails(editUser);
     // console.log("response:", response);
   };
@@ -95,7 +66,7 @@ const UsersPage = () => {
         onClick={open}
       >
         {" "}
-        <IconEdit onClick={() => setEditIndex(index)} size={16} />{" "}
+        <IconEdit onClick={() => setEditUserIndex(index)} size={16} />{" "}
       </Table.Td>
     </Table.Tr>
   ));
@@ -162,54 +133,18 @@ const UsersPage = () => {
           }}
           opened={opened}
           onClose={close}
-          title={`Edit User Details for UserID ${
-            editUser?.id
-          }`}
+          title={`Edit User Details for UserID`}
         >
-          <TextInput
-            onChange={(e) => handleInputChange(e)}
-            name="username"
-            label="Username"
-            value={editUser?.username}
-          />
-          <TextInput
-            onChange={(e) => handleInputChange(e)}
-            name="lens_handle"
-            label="Lens Handle"
-            value={editUser?.lens_handle}
-          />
-          <TextInput
-            onChange={(e) => handleInputChange(e)}
-            name=""
-            label="Email ID"
-            value={editUser?.mail}
-          />
-          <TextInput
-            onChange={(e) => handleInputChange(e)}
-            name="points"
-            label="Points"
-            value={editUser?.points}
-          />
-          <TextInput
-            onChange={(e) => handleInputChange(e)}
-            name="evm_address"
-            label="EVM Address"
-            value={editUser?.evm_address}
-          />
-          <TextInput
-            onChange={(e) => handleInputChange(e)}
-            name="solana_address"
-            label="Solana Address"
-            value={editUser?.solana_address}
-          />
-
           <Button
             className="mt-2"
             onClick={() => {
               fnUpdateUser();
               close();
             }}
-            > Update User </Button>
+          >
+            {" "}
+            Update User{" "}
+          </Button>
         </Modal>
       ) : (
         ""

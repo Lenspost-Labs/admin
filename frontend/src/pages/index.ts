@@ -5,8 +5,11 @@ import SettingsPage from "./SettingsPage.js";
 import LogoutPage from "./LogoutPage.js";
 import ErrorPage from "./utils/ErrorPage.js";
 import TemplatesPage from "./TemplatesPage.js";
-import UsersPage from "./UsersPage.js";
+import UsersPage from "./UsersPage/UsersPage.js";
 import OneStepUpload from "./oneStepUploadPage/index.js";
+import CollectionsPage from "./CollectionsPage.js";
+import TasksPage from "./TasksNRewardsPage/TasksPage.tsx";
+import RewardsPage from "./RewardsPage";
 
 export {
   DelCacheByPatternPage,
@@ -17,4 +20,7 @@ export {
   TemplatesPage,
   UsersPage,
   OneStepUpload,
+  CollectionsPage,
+  TasksPage,
+  RewardsPage
 };

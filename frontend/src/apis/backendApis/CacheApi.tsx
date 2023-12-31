@@ -27,3 +27,13 @@ export const apiDeleteCacheByPattern = async (data: any) => {
     console.error("Error deleting cache", error);
   }
 };
+
+export const apiGetPatternCache = async () => {
+  try {
+    const response = await apiInstance.get(`/cache/fetch`, config);
+    console.log("Caches:", response);
+    return response;
+  } catch (error) {
+    console.error("Error getting Caches:", error);
+  }
+}

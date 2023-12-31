@@ -11,6 +11,9 @@ import {
   TemplatesPage,
   UsersPage,
   OneStepUpload,
+  CollectionsPage,
+  TasksPage,
+  RewardsPage
 } from "src/pages";
 import App from "src/App";
 
@@ -18,6 +21,7 @@ import App from "src/App";
 import "@mantine/core/styles.css";
 
 import { MantineProvider } from "@mantine/core";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -57,6 +61,21 @@ const router = createBrowserRouter([
       {
         path: "/logout",
         element: <LogoutPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/collections",
+        element: <CollectionsPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/tasks",
+        element: <TasksPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/rewardLeaderboard",
+        element: <RewardsPage />,
         errorElement: <ErrorPage />,
       },
     ],
