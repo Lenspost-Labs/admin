@@ -4,7 +4,7 @@ const prisma = require("../prisma");
 
 router.get("/user", async (req, res) => {
   try {
-    let id = req.params.id;
+    let id = parseInt(req.query.id)
     const users = await prisma.owners.findUnique({
       where: {
         id,
@@ -13,6 +13,7 @@ router.get("/user", async (req, res) => {
 
     res.status(200).json(users);
   } catch (error) {
+    console.log(error.message);
     res.status(500).json({ error: error.message });
   }
 });
