@@ -13,4 +13,7 @@ interface AppContextProps {
     // Step 2 : Get Asset JSON
     arrImagesMetadata: string[];
     setArrImagesMetadata: React.Dispatch<React.SetStateAction<string[]>>;
+
+    editUserIndex: number;
+    setEditUserIndex: React.Dispatch<React.SetStateAction<number>>;
   }

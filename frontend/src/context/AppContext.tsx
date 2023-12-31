@@ -15,6 +15,9 @@ export const AppContext = createContext<AppContextProps>({
   // Step 2 : Get Asset JSON
   arrImagesMetadata: [],
   setArrImagesMetadata: () => {},
+
+  editUserIndex: 0,
+  setEditUserIndex: () => {},
 });
 
 const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -23,6 +26,7 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [authToken, setAuthToken] = useState<string>('');
   const [arrImagesS3Links, setArrImagesS3Links] = useState<string[]>([]);
   const [arrImagesMetadata, setArrImagesMetadata] = useState<string[]>([]);
+  const [editUserIndex, setEditUserIndex] = useState<number>(0);
 
   return (
     <AppContext.Provider
@@ -41,6 +45,9 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         // Step 2 : Get Asset JSON
         arrImagesMetadata,
         setArrImagesMetadata,
+
+        editUserIndex,
+        setEditUserIndex,
       }}
     >
       {children}

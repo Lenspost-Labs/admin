@@ -10,9 +10,9 @@ export const apiGetAllUsers = async () => {
   }
 };
 
-export const apiSpecific = async () => {
+export const apiGetSpecificUser = async (id: number) => {
   try {
-    const response = await apiInstance.get(`users/user`, config);
+    const response = await apiInstance.get(`users/user?id=${id}`, config);
     console.log("Users:", response);
     return response;
   } catch (error) {

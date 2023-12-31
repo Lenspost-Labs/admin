@@ -8,6 +8,8 @@ import {
   IconSquareRoundedLetterD,
   IconTemplate,
   IconGraphFilled,
+  IconSubtask,
+  IconReceiptDollar,
 } from "@tabler/icons-react";
 import { Link, Outlet } from "react-router-dom";
 import { AppContext } from "src/context/AppContext";
@@ -54,6 +56,16 @@ const MantineAppShell = () => {
       name: "Collections",
       route: "/collections",
       icon: <IconGraphFilled size="1rem" stroke={1.5} />,
+    },
+    {
+      name: "Tasks",
+      route: "/tasks",
+      icon: <IconSubtask size="1rem" stroke={1.5} />,
+    },
+    {
+      name: "Points Leaderboard",
+      route: "/rewardLeaderboard",
+      icon: <IconReceiptDollar size="1rem" stroke={1.5} />,
     },
   ];
   return (
