@@ -1,4 +1,11 @@
-import { apiInstance, config } from "src/apis/backendApis/config/AxiosConfig";
+import { apiInstance } from "src/apis/backendApis/config/AxiosConfig";
+
+export const config = {
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer ".concat(localStorage.getItem("jwt") || ""),
+  },
+};
 
 export const apiGetAllUsers = async () => {
   try {
