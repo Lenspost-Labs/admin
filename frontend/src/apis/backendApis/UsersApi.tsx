@@ -10,7 +10,7 @@ export const config = {
 export const apiGetAllUsers = async () => {
   try {
     const response = await apiInstance.get(`/users/showUsers`, config);
-    console.log("Users:", response);
+    // console.log("Users:", response);
     return response;
   } catch (error) {
     console.error("Error getting Users:", error);
@@ -20,7 +20,7 @@ export const apiGetAllUsers = async () => {
 export const apiGetSpecificUser = async (id: number) => {
   try {
     const response = await apiInstance.get(`users/user?id=${id}`, config);
-    console.log("Users:", response);
+    // console.log("Users:", response);
     return response;
   } catch (error) {
     console.error("Error getting Users:", error);

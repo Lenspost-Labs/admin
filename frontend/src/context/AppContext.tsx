@@ -1,4 +1,6 @@
-import React, { createContext, useState } from 'react';
+import axios from 'axios';
+import React, { createContext, useContext, useState } from 'react';
+export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const AppContext = createContext<AppContextProps>({
   userEmail: '',
@@ -56,3 +58,5 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 };
 
 export default AppContextProvider;
+
+export const useAuth = () => useContext(AppContext);

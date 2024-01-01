@@ -8,6 +8,7 @@ const StepUploadToS3 = () => {
   const { arrImagesS3Links, setArrImagesS3Links } = useContext(AppContext);
   const [uploading, setUploading] = useState(false);
   const [folderName, setFolderName] = useState("test");
+
   const handleFileUpload = async (event: { target: { files: any } }) => {
     
     setUploading(true);
@@ -21,7 +22,10 @@ const StepUploadToS3 = () => {
     for (let i = 0; i < files.length; i++) {
       formData.append(`files`, files[i]);
     }
-    formData.append(`folderName`,folderName );
+    formData.append(`folderName`, folderName);
+
+    console.log("formData:", formData);
+
     const response = await apiUploadToS3(formData);
 
     const resImageUrls: any[] | ((prevState: never[]) => never[]) = [];

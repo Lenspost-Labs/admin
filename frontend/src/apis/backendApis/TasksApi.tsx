@@ -1,8 +1,8 @@
-import { apiInstance, config } from "src/apis/backendApis/config/AxiosConfig";
+import { apiInstance } from "src/apis/backendApis/config/AxiosConfig";
 
 export const apiAddTask = async (data: any) => {
     try{
-      const response = await apiInstance.post(`/tasks/add`, data, config);
+      const response = await apiInstance.post(`/tasks/add`, data);
       console.log("Tasks added successfully:", response);
       return response;
     }
@@ -13,7 +13,7 @@ export const apiAddTask = async (data: any) => {
 
 export const apiGetAllTasks = async () => {
     try {
-      const response = await apiInstance.get(`/tasks`, config);
+      const response = await apiInstance.get(`/tasks`);
       console.log("Tasks:", response);
       return response;
     } catch (error) {

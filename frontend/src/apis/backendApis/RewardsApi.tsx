@@ -1,10 +1,10 @@
-import { apiInstance, config } from "./config/AxiosConfig";
+import { apiInstance } from "./config/AxiosConfig";
 
 export const apiGetAllPointsHistory = async () => {
     try {
-        const response = await apiInstance.get(`/getAllPointsHistory`, config);
-        console.log("Rewards:", response);
-        return response;
+        const response = await apiInstance.get(`/getAllPointsHistory`);
+        // console.log("Rewards:", response);
+        return response?.data;
     } catch (error) {
         console.error("Error getting Rewards:", error);
     }
