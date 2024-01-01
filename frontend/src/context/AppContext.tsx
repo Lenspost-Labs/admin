@@ -26,7 +26,7 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [authToken, setAuthToken] = useState<string>('');
   const [arrImagesS3Links, setArrImagesS3Links] = useState<string[]>([]);
   const [arrImagesMetadata, setArrImagesMetadata] = useState<string[]>([]);
-  const [editUserIndex, setEditUserIndex] = useState<number>(0);
+  const [editUserIndex, setEditUserIndex] = useState<number>(1);
 
   return (
     <AppContext.Provider
