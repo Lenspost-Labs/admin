@@ -1,11 +1,10 @@
-import { apiInstance, config } from "src/apis/backendApis/config/AxiosConfig";
+import { apiInstance } from "src/apis/backendApis/config/AxiosConfig";
 
 export const apiDeleteSpecificCache = async (data: any) => {
   try {
     const response = await apiInstance.post(
       `/deleteSpecificCache`,
       data,
-      config
     );
     console.log("Cache deleted successfully:", response);
     return response;
@@ -19,7 +18,6 @@ export const apiDeleteCacheByPattern = async (data: any) => {
     const response = await apiInstance.post(
       `/deleteCacheByPattern`,
       data,
-      config
     );
     console.log("Cache deleted successfully:", response);
     return response;
@@ -30,7 +28,7 @@ export const apiDeleteCacheByPattern = async (data: any) => {
 
 export const apiGetPatternCache = async () => {
   try {
-    const response = await apiInstance.get(`/cache/fetch`, config);
+    const response = await apiInstance.get(`/cache/fetch`);
     console.log("Caches:", response);
     return response;
   } catch (error) {

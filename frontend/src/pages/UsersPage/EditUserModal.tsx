@@ -28,6 +28,7 @@ const EditUserModal = () => {
     console.log("editUser:", editUser);
     const resEditUser = await apiEditUserDetails(editUser);
     console.log("resEditUser:", resEditUser);
+    resEditUser?.status == 200 && close();
   };
 
   const fnGetUserData = async (id: number) => {
