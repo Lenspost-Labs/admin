@@ -15,6 +15,13 @@ const EditUserModal = () => {
       ...prevState,
       [name]: value,
     }));
+
+    if(name === "points") {
+      setEditUser((prevState: any) => ({
+        ...prevState,
+        [name]: Number(value),
+      }));
+    }
   };
 
   const fnUpdateUser = async () => {
@@ -53,7 +60,7 @@ const EditUserModal = () => {
           />
           <TextInput
             onChange={(e) => handleInputChange(e)}
-            name=""
+            name="mail"
             label="Email ID"
             value={editUser?.mail}
           />
