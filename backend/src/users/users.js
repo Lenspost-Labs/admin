@@ -4,7 +4,7 @@ const prisma = require("../prisma");
 
 router.get("/user", async (req, res) => {
   try {
-    let id = parseInt(req.query.id)
+    let id = parseInt(req.query.id);
     const users = await prisma.owners.findUnique({
       where: {
         id,
@@ -33,10 +33,10 @@ router.get("/showUsers", async (req, res) => {
 });
 
 router.post("/editUser", async (req, res) => {
-  console.log(req.body);
-  const { id, evm_address, solana_address, lens_handle, username, points } =
-    req.body;
   try {
+    // console.log(req);
+    const { id, evm_address, solana_address, lens_handle, username, points } =
+      req.body;
     await prisma.owners.update({
       where: {
         id,

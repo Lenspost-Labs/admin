@@ -9,7 +9,8 @@ router.post("/pattern", auth, async (req, res) => {
     const key = req.body.pattern;
     let keys = await redis.keys("*");
     for (let i = 0; i < keys.length; i++) {
-      keys[i].includes(pattern) && (await redis.del(keys[i]));
+      // keys[i].includes(key) && (await redis.del(keys[i]));
+      if (keys[i].includes(key)) console.log("hello");
     }
     res.status(200).json({ message: "Cache deleted" });
   } catch (error) {
