@@ -1,4 +1,6 @@
 interface Collection {
+    name: ReactNode;
+    image: string | undefined;
     id: number;
     tokenId: string;
     title: string;
