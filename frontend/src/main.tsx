@@ -21,6 +21,7 @@ import App from "src/App";
 import "@mantine/core/styles.css";
 
 import { MantineProvider } from "@mantine/core";
+import CollectionPageWrapper from "./pages/CollectionsPage/CollectionPageWrapper";
 
 const router = createBrowserRouter([
   {
@@ -65,7 +66,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/collections",
-        element: <CollectionsPage />,
+        element: <CollectionPageWrapper />,
         errorElement: <ErrorPage />,
       },
       {

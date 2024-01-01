@@ -61,8 +61,8 @@ const RewardsPage = () => {
 
   return (
     <>
-      <h1>Rewards</h1>
-      <Button onClick={fnViewAllRewards}>View Rewards</Button>
+      <h1 className="mb-4">Reward Points Leaderboard</h1>
+      {/* <Button onClick={fnViewAllRewards}>View Rewards</Button> */}
       {rewards?.length > 0 && (
         <Table stickyHeader stickyHeaderOffset={56}>
           <Table.Thead>
