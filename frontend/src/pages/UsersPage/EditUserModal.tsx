@@ -1,6 +1,6 @@
 import { Button, Loader, TextInput } from "@mantine/core";
 import React, { useContext, useEffect, useState } from "react";
-import { apiGetSpecificUser } from "src/apis/backendApis/UsersApi";
+import { apiEditUserDetails, apiGetSpecificUser } from "src/apis/backendApis/UsersApi";
 import { AppContext } from "src/context/AppContext";
 
 const EditUserModal = () => {
@@ -10,17 +10,17 @@ const EditUserModal = () => {
   const { editUserIndex } = useContext(AppContext);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // let { name, value } = e.target;
-    // setEditUser((prevState) => ({
-    //   ...prevState,
-    //   [name]: value,
-    // }));
+    let { name, value } = e.target;
+    setEditUser((prevState: any) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const fnUpdateUser = async () => {
-    // console.log("editUser:", editUser);
-    // const response = await apiEditUserDetails(editUser);
-    // console.log("response:", response);
+    console.log("editUser:", editUser);
+    const resEditUser = await apiEditUserDetails(editUser);
+    console.log("resEditUser:", resEditUser);
   };
 
   const fnGetUserData = async (id: number) => {
@@ -88,7 +88,6 @@ const EditUserModal = () => {
           </Button>
         </>
       )}
-      {!editUser && <Button onClick={() => fnGetUserData(1)}>Get User</Button>}
       {loading && <Loader />}
     </>
   );

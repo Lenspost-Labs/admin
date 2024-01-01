@@ -7,6 +7,7 @@ import { Table } from "@mantine/core";
 import { IconEdit, IconSearch } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import {AppContext} from "src/context/AppContext";
+import EditUserModal from "./EditUserModal";
 
 const UsersPage = () => {
   const [usersArray, setUsersArray] = useState<User[]>([]);
@@ -66,7 +67,7 @@ const { setEditUserIndex } = useContext(AppContext);
         onClick={open}
       >
         {" "}
-        <IconEdit onClick={() => setEditUserIndex(index)} size={16} />{" "}
+        <IconEdit onClick={() => setEditUserIndex(user?.id)} size={16} />{" "}
       </Table.Td>
     </Table.Tr>
   ));
@@ -135,16 +136,7 @@ const { setEditUserIndex } = useContext(AppContext);
           onClose={close}
           title={`Edit User Details for UserID`}
         >
-          <Button
-            className="mt-2"
-            onClick={() => {
-              fnUpdateUser();
-              close();
-            }}
-          >
-            {" "}
-            Update User{" "}
-          </Button>
+          <EditUserModal /> 
         </Modal>
       ) : (
         ""
