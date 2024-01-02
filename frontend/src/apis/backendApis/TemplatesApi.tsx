@@ -1,15 +1,8 @@
 import { apiInstance } from "src/apis/backendApis/config/AxiosConfig";
 
-export const config = {
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: "Bearer ".concat(localStorage.getItem("jwt") || ""),
-  },
-};
-
 export const apiGetAllTemplates = async () => {
   try {
-    const response = await apiInstance.get(`/templates`, config);
+    const response = await apiInstance.get(`/templates`);
     console.log("Templates:", response);
     return response;
   } catch (error) {
@@ -19,7 +12,7 @@ export const apiGetAllTemplates = async () => {
 
 export const apiAddTemplates = async (data: any) => {
   try {
-    const response = await apiInstance.post(`/templates/add`, data, config);
+    const response = await apiInstance.post(`/templates/add`, data);
     console.log("Templates uploaded successfully:", response);
     return response;
   } catch (error) {
@@ -29,7 +22,7 @@ export const apiAddTemplates = async (data: any) => {
 
 export const apiUploadTemplateFile = async (data: any) => {
   try {
-    const response = await apiInstance.post(`/templates/upload`, data, config);
+    const response = await apiInstance.post(`/templates/upload`, data);
     console.log("Template Files Uploaded:", response);
     return response;
   } catch (error) {

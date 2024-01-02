@@ -1,17 +1,13 @@
 import { apiInstance } from "src/apis/backendApis/config/AxiosConfig";
 
-const config = {
-  headers : {
-    "Content-Type": "multipart/form-data",
-  },
-};
 
 export const apiUploadToS3 = async (files: FormData) => {
   // console.log(localStorage.getItem("jwt"));
   try {
+    console.log("apiInstance");
     console.log(apiInstance);
 
-    const response = await apiInstance.post(`/fileToS3`, files, config);
+    const response = await apiInstance.post(`/fileToS3`, files);
     console.log("Files uploaded successfully:", response);
     return response?.data;
   } catch (error) {
