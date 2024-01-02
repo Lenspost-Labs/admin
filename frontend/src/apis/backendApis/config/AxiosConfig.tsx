@@ -66,6 +66,19 @@ apiInstance.interceptors.request.use(
     config.headers["Content-Type"] = "application/json" || "multipart/form-data";
     config.headers["Access-Control-Allow-Origin"] = "*";
     config.headers["Access-Control-Allow-Methods"] = "*";
+
+    // Modify Content-Type for specific routes
+    // if (config.url && config.url in ['/fileToS3']) {
+      const routesForMultipartType = ['/fileToS3', '/templates/upload'];
+
+    if (routesForMultipartType.includes(config.url || "")){
+      config.headers['Content-Type'] = 'multipart/form-data';
+    } else {
+      config.headers['Content-Type'] = 'application/json';
+    }
+    
+    console.log("config");
+    console.log(config);
     return config;
   },
   (error) => {
