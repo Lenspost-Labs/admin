@@ -6,10 +6,12 @@ import { Button } from "@mantine/core";
 import { IconBrandGoogle } from "@tabler/icons-react";
 import React from "react";
 import { fnCheckWhitelist } from "./fnCheckWhitelist";
+import { Navigate } from "react-router-dom";
 const googleAuth = new GoogleAuthProvider();
 
 const LoginBtn = () => {
-  const {setUserEmail, setAuthToken, setIsWhitelisted } = useContext(AppContext);
+  const { userEmail, setUserEmail, setAuthToken, setIsWhitelisted } =
+    useContext(AppContext);
 
   const fnLogin = async () => {
     localStorage.removeItem("jwt");
@@ -18,17 +20,17 @@ const LoginBtn = () => {
 
     console.log("In LoginFn", result.user.email);
     setUserEmail(result.user.email ?? "");
-    
+
     const resWL = await fnCheckWhitelist(result.user.email ?? "");
     setIsWhitelisted(resWL?.whitelisted);
     setAuthToken(resWL?.token);
     localStorage.setItem("jwt", resWL?.token);
-    
-  }
-
+  };
 
   return (
     <div className="pt-32 flex flex-row align-middle justify-center">
+      {userEmail && <Navigate to="/oneStepUpload" replace={true} />}
+
       <Button
         variant="light"
         size="compact-lg"
