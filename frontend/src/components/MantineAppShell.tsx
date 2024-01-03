@@ -1,6 +1,6 @@
 import { AppShell, Burger, Group, NavLink } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   IconHome2,
   IconUser,
@@ -11,7 +11,7 @@ import {
   IconSubtask,
   IconReceiptDollar,
 } from "@tabler/icons-react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Navigate, Outlet } from "react-router-dom";
 import { AppContext } from "src/context/AppContext";
 import LoginBtn from "src/utils/LoginBtn";
 import LogoutBtn from "src/utils/LogoutBtn";
@@ -32,16 +32,16 @@ const MantineAppShell = () => {
       route: "/oneStepUpload",
       icon: <IconHome2 size="1rem" stroke={1.5} />,
     },
-    {
-      name: "DeleteCache",
-      route: "/deleteCache",
-      icon: <IconSquareRoundedLetterD size="1rem" stroke={1.5} />,
-    },
-    {
-      name: "DeleteCacheByPattern",
-      route: "/deleteCacheByPattern",
-      icon: <IconGridPattern size="1rem" stroke={1.5} />,
-    },
+    // {
+    //   name: "DeleteCache",
+    //   route: "/deleteCache",
+    //   icon: <IconSquareRoundedLetterD size="1rem" stroke={1.5} />,
+    // },
+    // {
+    //   name: "DeleteCacheByPattern",
+    //   route: "/deleteCacheByPattern",
+    //   icon: <IconGridPattern size="1rem" stroke={1.5} />,
+    // },
     {
       name: "Users",
       route: "/users",
@@ -68,6 +68,12 @@ const MantineAppShell = () => {
       icon: <IconReceiptDollar size="1rem" stroke={1.5} />,
     },
   ];
+
+  useEffect(() => {
+    // Navigate to /oneStepUpload by default - react router dom
+
+  }, []);
+
   return (
     <>
       <AppShell

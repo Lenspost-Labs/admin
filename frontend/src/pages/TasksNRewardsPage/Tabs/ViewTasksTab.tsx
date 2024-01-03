@@ -42,12 +42,13 @@ const ViewTasksTab = () => {
   };
 
   useEffect(() => {
-    fnViewTasks();
+    // fnViewTasks();
   });
+
 
   return (
     <>
-      {/* <Button onClick={fnViewTasks}>View Tasks</Button> */}
+      <Button className="mt-2 " onClick={fnViewTasks}>View Tasks</Button>
 
       <div className=" border-indigo-200">
         {tasks?.map((task) => {

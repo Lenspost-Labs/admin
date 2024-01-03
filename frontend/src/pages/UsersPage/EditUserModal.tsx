@@ -59,12 +59,12 @@ const EditUserModal = () => {
             label="Lens Handle"
             value={editUser?.lens_handle}
           />
-          <TextInput
+          {/* <TextInput
             onChange={(e) => handleInputChange(e)}
             name="mail"
             label="Email ID"
             value={editUser?.mail}
-          />
+          /> */}
           <TextInput
             onChange={(e) => handleInputChange(e)}
             name="points"

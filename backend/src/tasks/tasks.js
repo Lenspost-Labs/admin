@@ -13,19 +13,21 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/add", async (req, res) => {
-
+  const { description, campaign, locked, amount, name } = req.body;
 
   try {
     const tasks = await prisma.tasks.create({
       data: {
-        description: "Lenspost Admin Test",
-        campaign: null,
-        locked: true,
-        amount: 10,
-        name: "Lenspost Admin Test",
+        description,
+        campaign,
+        locked,
+        amount,
+        name,
       },
     });
-    res.json(tasks);
+    // res.json(tasks);
+    res.status(200).json({ status: "success", message: "Task added Successfully" });
+
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ error: error.message });
