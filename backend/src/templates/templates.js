@@ -4,6 +4,7 @@ const prisma = require("../prisma");
 const aws = require("aws-sdk");
 const dotenv = require("dotenv");
 const multer = require("multer");
+const upload = multer();
 
 dotenv.config();
 
@@ -41,9 +42,40 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/add", async (req, res) => {
-  let { name, image, tags, data } = req.body;
+router.post("/add", upload.single("image"), async (req, res) => {
+  let { name, tags, data } = req.body;
+  tags = JSON.parse(tags);
+  let image;
+  let file = req.file;
+
+  // console.log("--------------------------------------------------------");
+  // console.log(req.file);
+  // console.log("--------------------------------------------------------");
+  let folderName = "templates";
   try {
+    const s3 = new aws.S3({
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    });
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: `${folderName}/${file.originalname}`,
+      Body: file.buffer,
+      ContentType: "image/png",
+      ACL: "public-read",
+    };
+    const res = await s3.upload(params).promise();
+    image = res.Location;
+  } catch (error) {
+    console.error("Error uploading files to S3:", error);
+    res.status(500).json({ error: "File Uploading Error" });
+    return;
+  }
+  try {
+    if (!image) {
+      res.status(500).json({ error: "Image uploading error" });
+      return;
+    }
     await prisma.templates.createMany({
       data: {
         name,
@@ -56,37 +88,6 @@ router.post("/add", async (req, res) => {
   } catch (error) {
     console.error("Error handling request:", error);
     res.status(500).json({ error: error.message });
-  }
-});
-
-router.post("/upload", async (req, res) => {
-  try {
-    const s3 = new aws.S3({
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    });
-
-    let folderName = "templates"
-    const files = req.files;
-    let urls = [];
-    await Promise.all(
-      files.map(async (file) => {
-        const params = {
-          Bucket: process.env.AWS_BUCKET_NAME,
-          Key: `${folderName}/${file.originalname}`,
-          Body: file.buffer,
-          ContentType: "image/png",
-          ACL: "public-read",
-        };
-        const res = await s3.upload(params).promise();
-        urls.push(res.Location);
-      })
-    );
-
-    res.status(200).json(urls);
-  } catch (error) {
-    console.error("Error uploading files to S3:", error);
-    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
