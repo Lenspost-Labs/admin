@@ -5,7 +5,6 @@ const auth = require("./middleware/auth");
 const checkWhitelist = require("./scripts/checkWhitelist");
 const fileToS3 = require("./scripts/fileToS3");
 const getAssetJSON = require("./scripts/getAssetJSON");
-const uploadToDb = require("./scripts/uploadToDb");
 const showCollections = require("./collections/showCollections");
 const templates = require("./templates/templates");
 const tasks = require("./tasks/tasks");
@@ -28,7 +27,6 @@ app.get("/", (req, res) => {
 app.use("/checkWhitelist", checkWhitelist);
 app.use("/fileToS3", auth, fileToS3);
 app.use("/getAssetJSON", auth, getAssetJSON);
-app.use("/uploadToDb", auth, uploadToDb);
 app.use("/collections", auth, showCollections);
 app.use("/templates", auth, templates);
 app.use("/tasks", auth, tasks);
@@ -41,4 +39,3 @@ let PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}/`);
 });
-
