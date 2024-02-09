@@ -10,6 +10,7 @@ const templates = require("./templates/templates");
 const tasks = require("./tasks/tasks");
 const users = require("./users/users.js");
 const cache = require("./cache/cache.js");
+const addWhitelisting = require("./whitelisting/addWhitelisting.js");
 const getAllPointsHistory = require("./rewards/getAllPointsHistory");
 
 const dotenv = require("dotenv");
@@ -33,6 +34,7 @@ app.use("/tasks", auth, tasks);
 app.use("/cache", auth, cache);
 app.use("/getAllPointsHistory", auth, getAllPointsHistory);
 app.use("/users", auth, users);
+app.use("/whitelisting",  addWhitelisting);
 
 let PORT = process.env.PORT || 3000;
 
