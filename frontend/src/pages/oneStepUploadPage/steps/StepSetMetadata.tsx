@@ -3,7 +3,7 @@ import {
   Button,
   LoadingOverlay,
   Switch,
-  TagsInput,
+  // TagsInput,
   TextInput,
   Textarea,
 } from "@mantine/core";
@@ -215,9 +215,9 @@ const StepSetMetadata = () => {
               <div className="mt-4 text-green-800">
                 Metadata set Successfully
               </div>
-              <div className="mt-4 text-green-800">
+              {/* <div className="mt-4 text-green-800">
                 You can now move to next step
-              </div>
+              </div> */}
             </>
           )}
         </div>
