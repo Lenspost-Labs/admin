@@ -1,5 +1,4 @@
 import { Button, Loader, TextInput } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
 import React, { useContext, useEffect, useState } from "react";
 import {
   apiEditUserDetails,
@@ -102,7 +101,7 @@ const EditUserModal = () => {
             {" "}
             Update User{" "}
           </Button>
-          {!isUpdateSuccessful && 
+          {isUpdateSuccessful && 
             <div className=" text-green-400 text-center mt-4 ">
               {" "}
               User details updated successfully{" "}

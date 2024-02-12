@@ -1,9 +1,8 @@
-import { Button, Loader, Table } from "@mantine/core";
+import { Loader, Table } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { apiGetAllPointsHistory } from "src/apis/backendApis/RewardsApi";
 import {
   apiGetAllUsers,
-  apiGetSpecificUser,
 } from "src/apis/backendApis/UsersApi";
 
 const RewardsPage = () => {
