@@ -144,7 +144,16 @@ const StepSetMetadata = () => {
               className="mt-2"
               onChange={handleTextInputChange}
             />
-            <TagsInput
+
+            <TextInput
+              type="text"
+              label="Tags"
+              name="tags"
+              value={stickerData.tags}
+              className="mt-2"
+              onChange={handleTextInputChange}
+            />
+            {/* <TagsInput
               // Remove the 'type' attribute
               // type="text"
               label="tags"
@@ -156,7 +165,7 @@ const StepSetMetadata = () => {
               onChange={(value) => setTagValue(value)}
               // onChange={() => handleTextInputChange}
               className="mt-2"
-            />
+            /> */}
 
             <Textarea
               // type="textarea"
