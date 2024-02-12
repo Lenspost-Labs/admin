@@ -4,14 +4,12 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   IconHome2,
   IconUser,
-  IconGridPattern,
-  IconSquareRoundedLetterD,
   IconTemplate,
   IconGraphFilled,
   IconSubtask,
   IconReceiptDollar,
 } from "@tabler/icons-react";
-import { Link, Navigate, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { AppContext } from "src/context/AppContext";
 import LoginBtn from "src/utils/LoginBtn";
 import LogoutBtn from "src/utils/LogoutBtn";
