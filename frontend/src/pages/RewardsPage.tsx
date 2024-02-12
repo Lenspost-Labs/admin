@@ -1,24 +1,26 @@
-import { Button, Table } from "@mantine/core";
+import { Loader, Table } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { apiGetAllPointsHistory } from "src/apis/backendApis/RewardsApi";
 import {
   apiGetAllUsers,
-  apiGetSpecificUser,
 } from "src/apis/backendApis/UsersApi";
 
 const RewardsPage = () => {
   const [rewards, setRewards] = useState<Reward[]>([]);
   const [usersArray, setUsersArray] = useState<User[]>([]);
   const [rewardUserEVM, setRewardUserEVM] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const fnViewAllRewards = async () => {
+    setLoading(true)
     console.log("View Rewards");
-
+    
     const resRewards = await apiGetAllPointsHistory();
     // console.log(resRewards?.data);
     setRewards(resRewards?.data);
-
+    
     fnSetUsers();
+    setLoading(false)
   };
 
   const fnSetUsers = async () => {
@@ -63,6 +65,8 @@ const RewardsPage = () => {
     <>
       <h1 className="mb-4">Reward Points Leaderboard</h1>
       {/* <Button onClick={fnViewAllRewards}>View Rewards</Button> */}
+
+      {loading && <Loader/>}
       {rewards?.length > 0 && (
         <Table stickyHeader stickyHeaderOffset={56}>
           <Table.Thead>

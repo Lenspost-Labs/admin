@@ -1,11 +1,15 @@
 import { Button, Loader, TextInput } from "@mantine/core";
 import React, { useContext, useEffect, useState } from "react";
-import { apiEditUserDetails, apiGetSpecificUser } from "src/apis/backendApis/UsersApi";
+import {
+  apiEditUserDetails,
+  apiGetSpecificUser,
+} from "src/apis/backendApis/UsersApi";
 import { AppContext } from "src/context/AppContext";
 
 const EditUserModal = () => {
   const [editUser, setEditUser] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
+  const [isUpdateSuccessful, setIsUpdateSuccessful] = useState<boolean>(false);
 
   const { editUserIndex } = useContext(AppContext);
 
@@ -16,7 +20,7 @@ const EditUserModal = () => {
       [name]: value,
     }));
 
-    if(name === "points") {
+    if (name === "points") {
       setEditUser((prevState: any) => ({
         ...prevState,
         [name]: Number(value),
@@ -25,10 +29,13 @@ const EditUserModal = () => {
   };
 
   const fnUpdateUser = async () => {
+    setLoading(true);
     console.log("editUser:", editUser);
     const resEditUser = await apiEditUserDetails(editUser);
     console.log("resEditUser:", resEditUser);
     resEditUser?.status == 200 && close();
+    setLoading(false);
+    setIsUpdateSuccessful(true)
   };
 
   const fnGetUserData = async (id: number) => {
@@ -94,6 +101,12 @@ const EditUserModal = () => {
             {" "}
             Update User{" "}
           </Button>
+          {isUpdateSuccessful && 
+            <div className=" text-green-400 text-center mt-4 ">
+              {" "}
+              User details updated successfully{" "}
+            </div>
+          }
         </>
       )}
       {loading && <Loader />}
