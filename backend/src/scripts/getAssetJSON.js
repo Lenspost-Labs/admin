@@ -2,6 +2,7 @@ const express = require("express");
 const axios = require("axios");
 const sizeOf = require("image-size");
 const auth = require("../middleware/auth");
+const prisma = require("../prisma");
 
 const router = express.Router();
 
@@ -28,7 +29,20 @@ const processAssetJSON = async (requestData) => {
     return JSON.stringify(asset);
   });
 
-  return await Promise.all(assetJSONPromises);
+  let asset = await Promise.all(assetJSONPromises);
+  asset = JSON.parse(asset);
+  try {
+    await prisma.assets.createMany({
+      data: asset,
+      skipDuplicates: true,
+    });
+
+    console.log("Data uploaded to the database.");
+    return { message: "Data uploaded to the database." };
+  } catch (error) {
+    console.error("Error uploading data:", error);
+    throw error;
+  }
 };
 
 router.post("/", auth, async (req, res) => {
