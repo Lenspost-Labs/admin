@@ -31,10 +31,10 @@ const processAssetJSON = async (requestData) => {
       campaign,
     };
 
-    // await prisma.assets.createMany({
-    //   data: assetData,
-    //   skipDuplicates: true,
-    // });
+    await prisma.assets.createMany({
+      data: assetData,
+      skipDuplicates: true,
+    });
   }
 
   // console.log("Data uploaded to the database.");
