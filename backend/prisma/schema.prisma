@@ -39,7 +39,10 @@ model canvases {
   assetsRecipientElementData Json[]                    @default([])
   ownerId                    Int
   tags                       String[]                  @default(dbgenerated("(ARRAY[]::character varying[])::character varying(255)[]")) @db.VarChar(255)
+  watermark                  Boolean?                  @default(true)
   owner                      owners                    @relation(fields: [ownerId], references: [id])
+  shared_canvas              shared_canvas[]
+  shared_mint_canvas         shared_mint_canvas[]
   user_published_canvases    user_published_canvases[]
 }
 
@@ -102,15 +105,22 @@ model owners {
   evm_address             String?                   @unique @db.VarChar(255)
   id                      Int                       @id @default(autoincrement())
   username                String?                   @unique @db.VarChar(255)
-  points                  Int                       @default(0)
+  points                  Int                       @default(10)
   farcaster_signer_uuid   String?                   @db.VarChar(255)
   farcaster_id            String?                   @db.VarChar(255)
+  fid                     Int?                      @unique
   canvases                canvases[]
+  contracts               contracts[]
+  frames                  frames[]
   nftData                 nftData[]
   points_history          points_history[]
   referral                referral[]
+  room                    room[]
+  room_participants       room_participants[]
   socials                 socials[]
+  split_contracts         split_contracts[]
   uploadeds               uploadeds[]
+  user_funds              user_funds?
   user_published_canvases user_published_canvases[]
   public_canvas_templates public_canvas_templates[]
 }
@@ -165,6 +175,8 @@ model tasks {
   tag            String?          @db.VarChar(255)
   groupId        String?          @db.VarChar(255)
   taskIdInGroup  Int?             @default(0)
+  isRecurring    Boolean?         @default(false)
+  type           String?          @default("MINT") @db.VarChar(255)
   points_history points_history[]
 }
 
@@ -192,16 +204,153 @@ model referral {
 }
 
 model user_published_canvases {
-  id          Int       @id @default(autoincrement())
-  canvasId    Int?
-  ownerId     Int?
-  platform    String    @db.VarChar(255)
-  createdAt   DateTime  @default(now()) @db.Timestamptz(6)
-  scheduledAt DateTime? @db.Timestamptz(6)
-  txHash      String?   @db.VarChar(255)
-  metadata    Json?     @db.Json
-  canvases    canvases? @relation(fields: [canvasId], references: [id])
-  owners      owners?   @relation(fields: [ownerId], references: [id])
+  id                   Int       @id @default(autoincrement())
+  canvasId             Int?
+  ownerId              Int?
+  platform             String    @db.VarChar(255)
+  createdAt            DateTime  @default(now()) @db.Timestamptz(6)
+  scheduledAt          DateTime? @db.Timestamptz(6)
+  txHash               String?   @unique @db.VarChar(255)
+  metadata             Json?     @db.Json
+  xChain               String?   @db.VarChar(255)
+  social_capital_score Float?    @default(0.0)
+  canvases             canvases? @relation(fields: [canvasId], references: [id], onDelete: Cascade)
+  owners               owners?   @relation(fields: [ownerId], references: [id])
+}
+
+model channelCasts {
+  hash            String   @id
+  createdAt       DateTime @default(now()) @db.Timestamptz(6)
+  channelId       String
+  numberOfLikes   Int?     @default(0)
+  numberOfRecasts Int?     @default(0)
+  numberOfReplies Int?     @default(0)
+  text            String?
+  frameUrl        String?
+  castedBy        Int
+}
+
+model channels {
+  id            String   @id
+  name          String   @db.VarChar(255)
+  description   String?  @db.VarChar(255)
+  imageUrl      String?  @db.VarChar(255)
+  createdAt     DateTime @default(now()) @db.Timestamptz(6)
+  followerCount Int?     @default(0)
+  leadFid       Int?
+}
+
+model contractRegistry {
+  id       Int    @id @default(autoincrement())
+  contract String
+  network  String
+  type     String
+}
+
+model contracts {
+  id               String   @id
+  contract_address String
+  contract_type    String
+  chain_id         Int
+  args             Json?
+  user_id          Int
+  created_at       DateTime @default(now()) @db.Timestamptz(6)
+  owners           owners   @relation(fields: [user_id], references: [id])
+}
+
+model frames {
+  id               Int      @id @default(autoincrement())
+  imageUrl         String   @db.VarChar(255)
+  tokenUri         String   @db.VarChar(255)
+  isLike           Boolean  @default(false)
+  isRecast         Boolean  @default(false)
+  isFollow         Boolean  @default(false)
+  createdAt        DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt        DateTime @db.Timestamptz(6)
+  minters          Json[]   @default([])
+  allowedMints     Int      @default(0)
+  isTopUp          Boolean  @default(false)
+  owner            String   @db.VarChar(255)
+  redirectLink     String?  @db.VarChar(255)
+  chainId          Int
+  contract_address String   @db.VarChar(255)
+  creatorSponsored Boolean  @default(false)
+  contract_type    String   @default("ERC721") @db.VarChar(255)
+  gatedChannels    String?
+  gatedCollections String?
+  owners           owners   @relation(fields: [owner], references: [evm_address])
+}
+
+model room {
+  id                Int                 @id @default(autoincrement())
+  name              String              @db.VarChar(255)
+  createdAt         DateTime            @default(now()) @db.Timestamptz(6)
+  updatedAt         DateTime            @db.Timestamptz(6)
+  hostId            Int?
+  owners            owners?             @relation(fields: [hostId], references: [id])
+  room_participants room_participants[]
+}
+
+model room_participants {
+  id            Int     @id @default(autoincrement())
+  roomId        Int?
+  participantId Int?
+  owners        owners? @relation(fields: [participantId], references: [id])
+  room          room?   @relation(fields: [roomId], references: [id])
+}
+
+model shared_canvas {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique
+  canvasId  Int
+  isPublic  Boolean  @default(true)
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  canvases  canvases @relation(fields: [canvasId], references: [id], onDelete: Cascade)
+}
+
+model shared_mint_canvas {
+  id           Int      @id @default(autoincrement())
+  slug         String   @unique
+  canvasId     Int
+  contract     String   @db.VarChar(255)
+  createdAt    DateTime @default(now()) @db.Timestamptz(6)
+  hash         String   @db.VarChar(255)
+  chainId      Int
+  contractType String   @db.VarChar(255)
+  canvases     canvases @relation(fields: [canvasId], references: [id], onDelete: Cascade)
+}
+
+model split_contracts {
+  contract_address String   @unique
+  args_hash        String   @unique
+  user_id          Int
+  createdAt        DateTime @default(now()) @db.Timestamptz(6)
+  chain_id         Int
+  args             Json
+  owners           owners   @relation(fields: [user_id], references: [id])
+}
+
+model target_ad_users {
+  id                       Int      @id @default(autoincrement())
+  fid                      Int      @unique
+  total_casts              Int?     @default(0)
+  average_like_per_cast    Int?     @default(0)
+  average_recast_per_cast  Int?     @default(0)
+  followers                Int?     @default(0)
+  createdAt                DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt                DateTime @db.Timestamptz(6)
+  average_replies_per_cast Int?     @default(0)
+  social_capital_score     Float?   @default(0.0)
+}
+
+model user_funds {
+  id            Int     @id @default(autoincrement())
+  topup         Int     @default(0)
+  wallet        String? @db.VarChar(255)
+  wallet_pvtKey String? @db.VarChar(255)
+  userId        Int     @unique
+  sponsored     Int     @default(0)
+  owners        owners  @relation(fields: [userId], references: [id])
 }
 
 view public_canvas_templates {
@@ -218,9 +367,9 @@ view public_canvas_templates {
   isGated                    Boolean?
   allowList                  String[] @db.VarChar(255)
   gatedWith                  String[] @db.VarChar(255)
-  tags                       String[] @db.VarChar(255)
   assetsRecipientElementData Json[]
   ownerId                    Int
+  tags                       String[] @db.VarChar(255)
   owner                      owners   @relation(fields: [ownerId], references: [id])
 }
 
@@ -232,4 +381,61 @@ view template_view {
   createdAt DateTime? @db.Timestamptz(6)
   updatedAt DateTime? @db.Timestamptz(6)
   tags      String[]  @db.VarChar(255)
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view pg_stat_statements_info {
+  dealloc     BigInt?
+  stats_reset DateTime? @db.Timestamptz(6)
+
+  @@ignore
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view pg_stat_statements {
+  userid                 Int?     @db.Oid
+  dbid                   Int?     @db.Oid
+  toplevel               Boolean?
+  queryid                BigInt?
+  query                  String?
+  plans                  BigInt?
+  total_plan_time        Float?
+  min_plan_time          Float?
+  max_plan_time          Float?
+  mean_plan_time         Float?
+  stddev_plan_time       Float?
+  calls                  BigInt?
+  total_exec_time        Float?
+  min_exec_time          Float?
+  max_exec_time          Float?
+  mean_exec_time         Float?
+  stddev_exec_time       Float?
+  rows                   BigInt?
+  shared_blks_hit        BigInt?
+  shared_blks_read       BigInt?
+  shared_blks_dirtied    BigInt?
+  shared_blks_written    BigInt?
+  local_blks_hit         BigInt?
+  local_blks_read        BigInt?
+  local_blks_dirtied     BigInt?
+  local_blks_written     BigInt?
+  temp_blks_read         BigInt?
+  temp_blks_written      BigInt?
+  blk_read_time          Float?
+  blk_write_time         Float?
+  temp_blk_read_time     Float?
+  temp_blk_write_time    Float?
+  wal_records            BigInt?
+  wal_fpi                BigInt?
+  wal_bytes              Decimal? @db.Decimal
+  jit_functions          BigInt?
+  jit_generation_time    Float?
+  jit_inlining_count     BigInt?
+  jit_inlining_time      Float?
+  jit_optimization_count BigInt?
+  jit_optimization_time  Float?
+  jit_emission_count     BigInt?
+  jit_emission_time      Float?
+
+  @@ignore
 }

@@ -1,14 +1,14 @@
 SELECT
-  templates.id,
-  templates.data,
-  templates.name,
-  templates.image,
-  templates."createdAt",
-  templates."updatedAt",
-  templates.tags
+  id,
+  data,
+  name,
+  image,
+  "createdAt",
+  "updatedAt",
+  tags
 FROM
   templates
 ORDER BY
-  templates."createdAt" DESC
+  "createdAt" DESC
 LIMIT
   20;

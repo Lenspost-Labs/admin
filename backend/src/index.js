@@ -36,7 +36,7 @@ app.use("/getAllPointsHistory", auth, getAllPointsHistory);
 app.use("/users", auth, users);
 app.use("/whitelisting",  addWhitelisting);
 
-let PORT = process.env.PORT || 3000;
+let PORT = process.env.PORT || 3002;
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}/`);
