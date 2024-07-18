@@ -93,7 +93,7 @@ const MantineAppShell = () => {
             />
             {/* <MantineLogo size={30} /> */}
             <Link to="/">
-                <b>Raveshare Admin</b>
+                <b>Poster Admin</b>
             </Link>
           </Group>
         </AppShell.Header>

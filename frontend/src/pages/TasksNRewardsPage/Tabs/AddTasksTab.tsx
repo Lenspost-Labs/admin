@@ -4,11 +4,12 @@ import { apiAddTask } from "src/apis/backendApis/TasksApi";
 
 const AddTasksTab = () => {
   const [taskDetails, setTaskDetails] = useState<any>({
-    // description: "",
-    // campaign: null,
-    // locked: true,
-    // amount: 10,
-    // name: "",
+    description: "",
+    campaign: null,
+    locked: false,
+    amount: 10,
+    name: "",
+    type: "BURN",
   });
 
   const fnAddTasks = async () => {
@@ -44,9 +45,9 @@ const AddTasksTab = () => {
     console.log(taskDetails);
   };
 
-  useEffect(() => {
-    fnAddTasks();
-  }, []);
+  // useEffect(() => {
+  //   fnAddTasks();
+  // }, []);
 
   return (
     <>
@@ -72,6 +73,7 @@ const AddTasksTab = () => {
         value={taskDetails?.campaign || ""}
         onChange={(e) => handleIpChange(e)}
       />
+
       {/* <TextInput
         style={{ margin: "8px" }}
         name="locked"
@@ -93,6 +95,14 @@ const AddTasksTab = () => {
         name="amount"
         placeholder="Amount"
         value={Number(taskDetails?.amount || 0)}
+        onChange={(e) => handleIpChange(e)}
+      />
+
+      <TextInput
+        style={{ margin: "8px" }}
+        name="type"
+        placeholder="Type"
+        value={taskDetails?.type || ""}
         onChange={(e) => handleIpChange(e)}
       />
 
