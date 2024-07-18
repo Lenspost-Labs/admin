@@ -32,7 +32,7 @@ const StepSetMetadata = () => {
     stickerName: "stickerName",
     stickerAuthor: "stickerAuthor",
     type: "props",
-    data: [arrImagesS3Links.join(", ")],
+    data: [arrImagesS3Links.join(",")],
     tags: tagValue,
     wallet: "0xE3811DeFd98AF92712e54b0b3E1735c1051C86D6",
     campaign: "test",
@@ -65,15 +65,14 @@ const StepSetMetadata = () => {
     if (name === "featured") {
       setStickerData({ ...stickerData, [name]: checked });
     }
-
   };
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     setLoading(true);
     event.preventDefault();
     let jsondata = stickerData;
-    jsondata.data = jsondata.data.join(",").split(",");
-    console.log(jsondata);
+    jsondata.tags = jsondata.tags.map((tag: string) => tag.trim()); // Remove whitespace from tags
+    console.log(jsondata);  
 
     const resAstJSON = await apiGetAssetJSON(jsondata);
     console.log("Response:", resAstJSON);
