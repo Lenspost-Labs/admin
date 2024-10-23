@@ -1,20 +1,21 @@
 import { AppShell, Burger, Group } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 //import { IconHome2, IconUser, IconTemplate, IconGraphFilled, IconSubtask, IconReceiptDollar } from '@tabler/icons-react'
-import { Link, Outlet } from 'react-router-dom'
-// import { AppContext } from 'src/context/AppContext'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { AppContext } from 'src/context/AppContext'
 // import LoginBtn from 'src/utils/LoginBtn'
 // import LogoutBtn from 'src/utils/LogoutBtn'
 
 const MantineAppShell = () => {
-	//	const { userEmail, isWhitelisted } = useContext(AppContext)
+	const navigate = useNavigate()
+	const { userEmail, isWhitelisted } = useContext(AppContext)
 	const [opened, { toggle }] = useDisclosure()
 	// const [currentRoute, setCurrentRoute] = useState('OneStepUpload')
 	// const ref = useRef<HTMLAnchorElement>(null)
 
-	// console.log("MantineAppShell userEmail: ", userEmail);
-	// console.log("MantineAppShell isWhitelisted: ", isWhitelisted);
+	console.log('MantineAppShell userEmail: ', userEmail)
+	console.log('MantineAppShell isWhitelisted: ', isWhitelisted)
 	// console.log(localStorage.getItem("jwt"));
 
 	// const NavbarItemsArray = [
@@ -62,6 +63,7 @@ const MantineAppShell = () => {
 
 	useEffect(() => {
 		// Navigate to /oneStepUpload by default - react router dom
+		navigate('/oneStepUpload')
 	}, [])
 
 	return (
@@ -86,11 +88,11 @@ const MantineAppShell = () => {
 				</AppShell.Header>
 				{/* {userEmail !== '' && localStorage.getItem('jwt') !== null ? (
 					<> */}
-				{/* <AppShell.Navbar p="md">
-					{/* <hr /> */}
+				{/* <AppShell.Navbar p="md"> */}
+				{/* <hr /> */}
 				{/* <div className="m-2 mb-4 text-blue-600">{userEmail && userEmail}</div>
-					<hr className="mb-6" />
-					{NavbarItemsArray
+					<hr className="mb-6" /> */}
+				{/* {NavbarItemsArray
 						// .fill(0)
 						.map((val, index) => (
 							// <Skeleton key={index} h={28} mt="sm" animate={false} />
@@ -108,10 +110,10 @@ const MantineAppShell = () => {
 									// }
 								/>
 							</Link>
-						))}
-					<LogoutBtn /> */}
+						))} */}
+				{/* <LogoutBtn /> */}
 				{/* <AppShell.Footer p="md"> <div className=""> <Button variant="light" color="red" size="xs"> Logout </Button> </div> </AppShell.Footer> */}
-				{/* </AppShell.Navbar>  */}
+				{/* </AppShell.Navbar> */}
 				<AppShell.Main>
 					{' '}
 					<Outlet />{' '}
